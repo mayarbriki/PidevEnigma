@@ -13,9 +13,7 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $artid = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $artlib = null;
 
@@ -38,19 +36,6 @@ class Article
     {
         return $this->id;
     }
-
-    public function getArtid(): ?int
-    {
-        return $this->artid;
-    }
-
-    public function setArtid(?int $artid): static
-    {
-        $this->artid = $artid;
-
-        return $this;
-    }
-
     public function getArtlib(): ?string
     {
         return $this->artlib;

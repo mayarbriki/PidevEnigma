@@ -31,6 +31,10 @@ class Categorie
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        return $this->libelle; // Remplacez "nom" par le nom de la propriété qui représente le libellé de la catégorie
+    }
     public function getLibelle(): ?string
     {
         return $this->libelle;
