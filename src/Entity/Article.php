@@ -31,6 +31,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?float $artprix = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Categorie $idCat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Article
     public function setArtprix(?float $artprix): static
     {
         $this->artprix = $artprix;
+
+        return $this;
+    }
+
+    public function getIdCat(): ?Categorie
+    {
+        return $this->idCat;
+    }
+
+    public function setIdCat(?Categorie $idCat): static
+    {
+        $this->idCat = $idCat;
 
         return $this;
     }
