@@ -3,7 +3,17 @@
 {% block title %}Categorie index{% endblock %}
 
 {% block body %}
-    <h1>Categorie index</h1>
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
 
     <table class="table">
         <thead>
@@ -32,4 +42,5 @@
     </table>
 
     <a href="{{ path('app_categorie_new') }}">Create new</a>
+    </main>
 {% endblock %}

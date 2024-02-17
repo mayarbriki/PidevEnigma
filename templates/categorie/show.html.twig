@@ -3,7 +3,17 @@
 {% block title %}Categorie{% endblock %}
 
 {% block body %}
-    <h1>Categorie</h1>
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
 
     <table class="table">
         <tbody>
@@ -23,4 +33,5 @@
     <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">edit</a>
 
     {{ include('categorie/_delete_form.html.twig') }}
+    </main>
 {% endblock %}
