@@ -52,48 +52,8 @@ class ProduitController extends AbstractController
 
 
 
-    #[Route('/Produit/add', name: 'add')]
-    public function add(ManagerRegistry $doctrine,Request $request, SluggerInterface $slugger): Response
-    {
-        $Produit=new Produit() ;
-        $form=$this->createForm(ProduitType::class,$Produit); //sna3na objet essmo form aamlena bih appel lel Produittype
-        $form->handleRequest($request);
-        if( $form->isSubmitted() && $form->isValid() )   //amaalna verification esq taadet willa le aadna prob fi code ou nn
-       {
-        $image = $form->get('image')->getData();
-
-        // this condition is needed because the 'brochure' field is not required
-        // so the PDF file must be processed only when a file is uploaded
-        if ($image) {
-            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-            // this is needed to safely include the file name as part of the URL
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-
-            // Move the file to the directory where brochures are stored
-            try {
-                $image->move(
-                    $this->getParameter('produit_directory'),
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-
-            // updates the 'brochureFilename' property to store the PDF file name
-            // instead of its contents
-            $Produit->setImage($newFilename);
-        }
-        $em=$doctrine->getManager(); //appel lel manager
-        $em->persist($Produit); //elli tzid
-        $em->flush(); //besh ysob fi base de donnee
-        return $this->redirectToRoute('appback');
-        }
-        return $this->render('Produit/add.html.twig', array("formProduit"=>$form->createView()));
-       // return $this->render('Produit/add.html.twig', array("formProduit"=>$form->createView));
-
-    }
-    #[Route('/Produit/add1', name: 'add1')]
+   
+    #[Route('/Produit/add', name: 'add1')]
     public function add1(ManagerRegistry $doctrine,Request $request, SluggerInterface $slugger): Response
     {
         $Produit=new Produit() ;
@@ -130,7 +90,7 @@ class ProduitController extends AbstractController
         $em->flush(); //besh ysob fi base de donnee
         return $this->redirectToRoute('app');
         }
-        return $this->render('Produit/add1.html.twig', array("formProduit"=>$form->createView()));
+        return $this->render('Produit/add.html.twig', array("formProduit"=>$form->createView()));
        // return $this->render('Produit/add.html.twig', array("formProduit"=>$form->createView));
 
     }

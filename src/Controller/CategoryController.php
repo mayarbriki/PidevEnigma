@@ -16,21 +16,14 @@ use App\Repository\CategoryRepository;
  
 class CategoryController extends AbstractController
 {
-    #[Route('/Category', name: 'app_Category')]
-    public function index(): Response
-    {
-        return $this->render('Category/index.html.twig', [
-            'controller_name' => 'CategoryController',
-        ]);
-    }
-
+    
    
-    #[Route('/Category/afficherback2', name: 'appback2')]
+    #[Route('/Category', name: 'appback2')]
     public function afficheback2(ManagerRegistry $em): Response
     {
         $repo=$em->getRepository(Category::class);
         $result=$repo->findAll();
-        return $this->render ('Category/back.html.twig',['Category'=>$result]);
+        return $this->render ('category/back.html.twig',['Category'=>$result]);
    
        
     }
@@ -38,7 +31,7 @@ class CategoryController extends AbstractController
 
 
 
-    #[Route('/Category/add2', name: 'add2')]
+    #[Route('/Category/add', name: 'add2')]
     public function add2(ManagerRegistry $doctrine,Request $request): Response
     {
         $Category=new Category() ;
@@ -51,12 +44,12 @@ class CategoryController extends AbstractController
         $em->flush(); //besh ysob fi base de donnee
         return $this->redirectToRoute('appback2');
         }
-        return $this->render('Category/add.html.twig', array("formCategory"=>$form->createView()));
+        return $this->render('category/add.html.twig', array("formCategory"=>$form->createView()));
        // return $this->render('Category/add.html.twig', array("formCategory"=>$form->createView));
 
     }
    
-    #[Route('/Category/update2/{id}', name: 'update2')]
+    #[Route('/Category/update/{id}', name: 'update2')]
 
     public function  updateCategory2 (ManagerRegistry $doctrine,$id,  Request  $request) : Response
     { $Category = $doctrine
@@ -70,13 +63,13 @@ class CategoryController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('appback2');
         }
-        return $this->renderForm("Category/update.html.twig",
+        return $this->renderForm("category/update.html.twig",
             ["Category"=>$form]) ;
 
 
     } 
 
-    #[Route('/Category/delete2/{id}', name: 'delete2')]
+    #[Route('/Category/delete/{id}', name: 'delete2')]
 
     public function delete2($id, ManagerRegistry $doctrine)
     {$c = $doctrine

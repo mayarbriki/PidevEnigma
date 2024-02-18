@@ -3,6 +3,19 @@
 {% block title %}E-FIT!{% endblock %}
 
 {% block body %}
+ <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
 
 <div class="panel-header panel-header-sm">
             </div>
@@ -78,9 +91,10 @@
                                                 <td>
                                                     {{i.Categorys}}
                                                 </td>
-                                                 <td>
-                                                    {{i.Image}}
-                                                </td>
+                                                 
+                                                 <td><img src="../uploads/produits/{{ i.Image }}" class="img-fluid" height="100" width="125"></td>
+                                                    
+                                                
                                                  <td>
                                                     <a href="{{ path('delete', {id:i.ID}) }}">Delete </a>
                                                 </td>
@@ -100,5 +114,7 @@
                             
                 </div>
             </div>
+</section>
 
+  </main>
 {% endblock %}
