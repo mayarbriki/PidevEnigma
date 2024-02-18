@@ -26,9 +26,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_transport_index') }}">back to list</a>
+    <a href="{{ path('app_transport_index') }}" class="btn btn-primary">back to list</a>
 
-    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-primary">edit</a>
 
     {{ include('transport/_delete_form.html.twig') }}
 {% endblock %}

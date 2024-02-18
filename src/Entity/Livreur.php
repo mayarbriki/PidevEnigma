@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\LivreurRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: LivreurRepository::class)]
 class Livreur
@@ -14,16 +16,25 @@ class Livreur
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message:"Nom cannot be blank")]
+    #[Assert\Length(max:255, maxMessage: "Nom cannot be longer than {{ limit }} characters")]
     private ?string $Nom = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message:"NumeroTel cannot be blank")]
+    #[Assert\Regex(pattern:"/^[24579]\d{7}$/", message:"NumeroTel must be 8 digits and start with 2, 4, 5, 7, or 9")]
     private ?int $NumeroTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message:"Status cannot be blank")]
+    #[Assert\Choice(choices:["disponible", "non-disponible", "en livraison"], message:"Invalid Status")]
     private ?string $Status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message:"HistoireLiv cannot be blank")]
+    #[Assert\Length(max:255, maxMessage:"HistoireLiv cannot be longer than {{ limit }} characters")]
     private ?string $HistoireLiv = null;
+
 
     public function getId(): ?int
     {
