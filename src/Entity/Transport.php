@@ -27,10 +27,16 @@ class Transport
     #[Symfony\Component\Form\Extension\Core\Type\ChoiceType(choices: ['Disponible' => 'disponible', 'Non-disponible' => 'non-disponible', 'En-livraison' => 'en-livraison'])]
     private ?string $etat = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    /*#[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Status cannot be blank")]
     #[Assert\Length(max: 255, maxMessage: "Status cannot be longer than {{ limit }} characters")]
-    private ?string $status = null;
+    private ?string $status = null;*/
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "DelaiLivMoy cannot be blank")]
+    #[Assert\Length(max: 255, maxMessage: "DelaiLivMoy cannot be longer than {{ limit }} characters")]
+    /*#[Assert\Regex(pattern: '/^\d{2}:\d{2}$/',message: "The delivery time must be in the format HH:MM")]*/
+    private ?string $DelaiLivMoy = null;
 
     // Getter and setter methods...
 
@@ -65,7 +71,7 @@ class Transport
         return $this;
     }
 
-    public function getStatus(): ?string
+    /*public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -75,5 +81,24 @@ class Transport
         $this->status = $status;
 
         return $this;
+    }*/
+
+    public function getDelaiLivMoy(): ?string
+    {
+        return $this->DelaiLivMoy;
     }
+
+    public function setDelaiLivMoy(?string $DelaiLivMoy): static
+    {
+        $this->DelaiLivMoy = $DelaiLivMoy;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getType();
+    }
+    
+  
 }

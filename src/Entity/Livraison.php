@@ -14,51 +14,51 @@ class Livraison
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Transport $idmoyentransport = null;
+    private ?Transport $type = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $id_livreur = null;
+    private ?Article $artlib = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Article $id_article = null;
+    private ?Livreur $Nom = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdmoyentransport(): ?Transport
+    public function getType(): ?Transport
     {
-        return $this->idmoyentransport;
+        return $this->type;
     }
 
-    public function setIdmoyentransport(?Transport $idmoyentransport): static
+    public function setType(?Transport $type): static
     {
-        $this->idmoyentransport = $idmoyentransport;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getIdLivreur(): ?User
+    public function getArtlib(): ?Article
     {
-        return $this->id_livreur;
+        return $this->artlib;
     }
 
-    public function setIdLivreur(?User $id_livreur): static
+    public function setArtlib(?Article $artlib): static
     {
-        $this->id_livreur = $id_livreur;
+        $this->artlib = $artlib;
 
         return $this;
     }
 
-    public function getIdArticle(): ?Article
+    public function getNom(): ?Livreur
     {
-        return $this->id_article;
+        return $this->Nom;
     }
 
-    public function setIdArticle(?Article $id_article): static
+    public function setNom(?Livreur $Nom): static
     {
-        $this->id_article = $id_article;
+        $this->Nom = $Nom;
 
         return $this;
     }

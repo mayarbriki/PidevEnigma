@@ -12,9 +12,9 @@ class LivraisonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idmoyentransport')
-            ->add('id_livreur')
-            ->add('id_article')
+            ->add('type')
+            ->add('artlib')
+            ->add('nom')
         ;
     }
 

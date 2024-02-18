@@ -9,21 +9,26 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>actions</th>
+                <th>type</th>
+                <th>artlib</th>
+                <th>nom</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for livraison in livraisons %}
             <tr>
                 <td>{{ livraison.id }}</td>
+                <td>{{ livraison.type }}</td>
+                <td>{{ livraison.artlib }}</td>
+                <td>{{ livraison.nom }}</td>
                 <td>
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">show</a>
-                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">edit</a>
+                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">Show</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="5">No records found</td>
             </tr>
         {% endfor %}
         </tbody>

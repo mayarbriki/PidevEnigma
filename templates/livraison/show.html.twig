@@ -11,12 +11,22 @@
                 <th>Id</th>
                 <td>{{ livraison.id }}</td>
             </tr>
+            <tr>
+                <th>Transport</th>
+                <td>{{ livraison.type }}</td>
+            </tr>
+            <tr>
+                <th>Livreur</th>
+                <td>{{ livraison.artlib }}</td>
+            </tr>
+            <tr>
+                <th>Article</th>
+                <td>{{ livraison.nom }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_livraison_index') }}">back to list</a>
-
-    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">edit</a>
-
+    <a href="{{ path('app_livraison_index') }}">Back to list</a>
+    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">Edit</a>
     {{ include('livraison/_delete_form.html.twig') }}
 {% endblock %}

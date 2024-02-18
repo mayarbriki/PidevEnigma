@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class TransportType extends AbstractType
@@ -28,8 +30,15 @@ class TransportType extends AbstractType
                 'En-livraison' => 'en-livraison',
             ],
         ])
-            ->add('status')
-        ;
+        ->add('DelaiLivMoy', TextType::class, [
+            'label' => 'Average Delivery Time',
+            'constraints' => [
+                new Regex([
+                    'pattern' => '/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/',
+                    'message' => 'The delivery time must be in the format HH:MM',
+                ]),
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
