@@ -14,6 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
+    #[Route('/front', name: 'app_article_index2', methods: ['GET'])]
+    public function index2(ArticleRepository $articleRepository): Response
+    {
+        return $this->render('article/index2.html.twig', [
+            'articles' => $articleRepository->findAll(),
+        ]);
+    }
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
     public function index(ArticleRepository $articleRepository): Response
     {
@@ -30,6 +37,13 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form['artimg']->getData();
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('my_images_directory'), $fileName);
+                $article->setArtimg($fileName);
+            }
             $entityManager->persist($article);
             $entityManager->flush();
 

@@ -19,7 +19,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Artid</th>
+                
                 <th>Artlib</th>
                 <th>Artdesc</th>
                 <th>Artdispo</th>
@@ -32,11 +32,12 @@
         {% for article in articles %}
             <tr>
                 <td>{{ article.id }}</td>
-                <td>{{ article.artid }}</td>
+                
                 <td>{{ article.artlib }}</td>
                 <td>{{ article.artdesc }}</td>
                 <td>{{ article.artdispo }}</td>
-                <td>{{ article.artimg }}</td>
+                <td><img src="../uploads/{{ article.artimg }}" class="img-fluid" height="100" width="125"></td>
+                
                 <td>{{ article.artprix }}</td>
                 <td>
                     <a href="{{ path('app_article_show', {'id': article.id}) }}">show</a>

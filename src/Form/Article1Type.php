@@ -6,6 +6,7 @@ use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class Article1Type extends AbstractType
 {
@@ -16,7 +17,12 @@ class Article1Type extends AbstractType
             ->add('artlib')
             ->add('artdesc')
             ->add('artdispo')
-            ->add('artimg')
+            ->add('artimg', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => false,
+                'attr' => ['class' => 'form-control-file'],
+            ])
             ->add('artprix')
             ->add('idCat')
         ;

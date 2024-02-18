@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -13,19 +14,21 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
-    
+    #[Assert\NotBlank(message: 'champs est vide')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $artlib = null;
-
+    #[Assert\NotBlank(message: 'champs est vide')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $artdesc = null;
 
+    #[Assert\NotBlank(message: 'champs est vide')]
     #[ORM\Column(nullable: true)]
     private ?int $artdispo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $artimg = null;
 
+    #[Assert\NotBlank(message: 'champs est vide')]
     #[ORM\Column(nullable: true)]
     private ?float $artprix = null;
 
