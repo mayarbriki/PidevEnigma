@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %}Produit{% endblock %}
+
 
 {% block body %}
-<section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+
+
+
+
+		<section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
             <div class="display-header d-flex justify-content-between pb-3">
@@ -14,22 +19,22 @@
             </div>
             <div class="swiper product-swiper">
                 <div class="swiper-wrapper">
-                    {% for article in articles %}
+                    {% for a in Produit %}
                     <div class="swiper-slide">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img src="../uploads/{{ article.artimg }}" alt="product-item" class="img-fluid">
+                                <img src="{{asset('/uploads/produits/'~a.Image)}}" alt="product-item" class="img-fluid">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+                                    <a href="{{ path('panier') }}" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
                                 </div>
                             </div>
                             <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                 <h3 class="card-title text-uppercase">
-                                    <a href="#"><td>{{ article.artlib }}</td></a>
+                                    <a href="#"><td>{{a.Nom }}</td></a>
                                 </h3>
-                                <span class="item-price text-primary">{{ article.artprix }}</span>
+                                <span class="item-price text-primary">{{a.Prix }}</span>
                             </div>
                         </div>
                     </div>
@@ -41,3 +46,4 @@
     <div class="swiper-pagination position-absolute text-center"></div>
 </section>
 {% endblock %}
+

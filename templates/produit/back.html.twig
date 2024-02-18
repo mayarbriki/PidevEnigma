@@ -1,0 +1,104 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}E-FIT!{% endblock %}
+
+{% block body %}
+
+<div class="panel-header panel-header-sm">
+            </div>
+            <div class="content">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                                                                                            
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <h4 class="card-title"> Simple Table</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+
+                                    <table class="table">
+
+                                        <thead class=" text-primary">
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Nom
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                             <th>
+                                                Quantite
+                                            </th>
+                                            <th class="text-right">
+                                                Prix
+                                            </th>
+                                            <th class="text-right">
+                                                category
+                                            </th>
+                                             <th class="text-right">
+                                                Image
+                                            </th>
+                                        
+                                             <th class="text-right">
+                                              Delete
+                                            </th>
+                                             <th class="text-right">
+                                                Update
+                                            </th>
+                                        </thead>
+
+                                        <tbody>
+                                                      {% for i in Produit %}
+
+                                            <tr>
+                                                <td>
+                                                    {{i.ID}}
+                                                </td>
+                                                <td>
+                                                   {{i.Nom}}
+                                                </td>
+                                                <td>
+                                                    {{i.Description}}
+                                                </td>
+
+                                                 <td>
+                                                    {{i.quantite}}
+                                                </td>
+                                              <td>
+                                                    {{i.Prix}}
+                                                </td>
+                                                <td>
+                                                    {{i.Categorys}}
+                                                </td>
+                                                 <td>
+                                                    {{i.Image}}
+                                                </td>
+                                                 <td>
+                                                    <a href="{{ path('delete', {id:i.ID}) }}">Delete </a>
+                                                </td>
+                                                 <td>
+                                                    <a href="{{ path('update', {id:i.ID}) }}">Update </a>
+                                                </td>
+                                            </tr>
+                                           {% endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                           
+                            
+                </div>
+            </div>
+
+{% endblock %}
