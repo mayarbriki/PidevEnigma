@@ -16,23 +16,23 @@ class Livreur
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message:"Nom cannot be blank")]
-    #[Assert\Length(max:255, maxMessage: "Nom cannot be longer than {{ limit }} characters")]
+    #[Assert\NotBlank(message:"Nom ne peut pas être vide")]
+    #[Assert\Length(max:255, maxMessage: "Nom ne peut pas être plus long que {{ limit }} caractères")]
     private ?string $Nom = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\NotBlank(message:"NumeroTel cannot be blank")]
-    #[Assert\Regex(pattern:"/^[24579]\d{7}$/", message:"NumeroTel must be 8 digits and start with 2, 4, 5, 7, or 9")]
+    #[Assert\NotBlank(message:"NumeroTel ne peut pas être vide")]
+    #[Assert\Regex(pattern:"/^[24579]\d{7}$/", message:"NumeroTel doit comporter 8 chiffres et commencer par 2, 4, 5, 7 ou 9")]
     private ?int $NumeroTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message:"Status cannot be blank")]
-    #[Assert\Choice(choices:["disponible", "non-disponible", "en livraison"], message:"Invalid Status")]
+    #[Assert\NotBlank(message:"Status ne peut pas être vide")]
+    #[Symfony\Component\Form\Extension\Core\Type\ChoiceType(choices: ['Disponible' => 'disponible', 'Non-disponible' => 'non-disponible', 'En-livraison' => 'en-livraison'])]
     private ?string $Status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message:"HistoireLiv cannot be blank")]
-    #[Assert\Length(max:255, maxMessage:"HistoireLiv cannot be longer than {{ limit }} characters")]
+    #[Assert\NotBlank(message:"HistoireLiv ne peut pas être vide")]
+    #[Assert\Length(max:255, maxMessage:"HistoireLiv ne peut pas être plus long que {{ limit }} caractères")]
     private ?string $HistoireLiv = null;
 
 

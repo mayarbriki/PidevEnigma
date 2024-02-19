@@ -16,8 +16,8 @@ class LivraisonType extends AbstractType
         $builder
             ->add('type')
             ->add('artlib')
-            ->add('Nom', null, [ // Specify the type of field as 'null' to use default
-                'label' => 'Nom', // Optional: Customize the label
+            ->add('Nom', null, [
+                'label' => 'Nom',
             ]);
         ;
     }

@@ -16,14 +16,14 @@ class Transport
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message: "Type cannot be blank")]
-    #[Assert\Length(max: 255, maxMessage: "Type cannot be longer than {{ limit }} characters")]
+    #[Assert\NotBlank(message: "Type ne peut pas être vide")]
+    #[Assert\Length(max: 255, maxMessage: "Type ne peut pas être plus long que {{ limit }} caractères")]
     #[Symfony\Component\Form\Extension\Core\Type\ChoiceType(choices: ['Velo' => 'velo', 'Moto' => 'moto', 'Voiture' => 'voiture'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message: "Etat cannot be blank")]
-    #[Assert\Length(max: 255, maxMessage: "Etat cannot be longer than {{ limit }} characters")]
+    #[Assert\NotBlank(message: "Etat ne peut pas être vide")]
+    #[Assert\Length(max: 255, maxMessage: "Etat ne peut pas être plus long que {{ limit }} caractères")]
     #[Symfony\Component\Form\Extension\Core\Type\ChoiceType(choices: ['Disponible' => 'disponible', 'Non-disponible' => 'non-disponible', 'En-livraison' => 'en-livraison'])]
     private ?string $etat = null;
 
@@ -33,19 +33,16 @@ class Transport
     private ?string $status = null;*/
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\NotBlank(message: "DelaiLivMoy cannot be blank")]
-    #[Assert\Length(max: 255, maxMessage: "DelaiLivMoy cannot be longer than {{ limit }} characters")]
-    /*#[Assert\Regex(pattern: '/^\d{2}:\d{2}$/',message: "The delivery time must be in the format HH:MM")]*/
+    #[Assert\NotBlank(message: "DelaiLivMoy ne peut pas être vide")]
+    #[Assert\Length(max: 255, maxMessage: "DelaiLivMoy ne peut pas être plus long que {{ limit }} caractères")]
+    /*#[Assert\Regex(pattern: '/^\d{2}:\d{2}$/',message: "Le délai de livraison doit être au format HH:MM")]*/
     private ?string $DelaiLivMoy = null;
 
-    // Getter and setter methods...
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    // Getter and setter methods for type, etat, and status...
 
     public function getType(): ?string
     {

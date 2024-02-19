@@ -6,6 +6,7 @@ use App\Entity\Livreur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class LivreurType extends AbstractType
 {
@@ -14,7 +15,13 @@ class LivreurType extends AbstractType
         $builder
             ->add('Nom')
             ->add('NumeroTel')
-            ->add('Status')
+            ->add('Status', ChoiceType::class, [
+                'choices' => [
+                    'Disponible' => 'disponible',
+                    'Non-disponible' => 'non-disponible',
+                    'En-livraison' => 'en-livraison',
+                ],
+            ])
             ->add('HistoireLiv')
         ;
     }
