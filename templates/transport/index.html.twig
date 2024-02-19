@@ -3,6 +3,8 @@
 {% block title %}Transport index{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
+
     <div class="content-wrapper">
         <h1>Transport index</h1>
 
@@ -25,8 +27,8 @@
                         <td>{{ transport.etat }}</td>
                         <td>{{ transport.DelaiLivMoy }}</td>
                         <td>
-                            <a href="{{ path('app_transport_show', {'id': transport.id}) }}">Show</a>
-                            <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">Edit</a>
+                            <a href="{{ path('app_transport_show', {'id': transport.id}) }}" class="btn btn-primary">Show</a>
+                            <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 {% else %}
@@ -40,5 +42,6 @@
 
         <a href="{{ path('app_transport_new') }}" class="btn btn-primary">Create new</a>
     </div>
+ </main>
 {% endblock %}
 

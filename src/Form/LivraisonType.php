@@ -6,6 +6,8 @@ use App\Entity\Livraison;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class LivraisonType extends AbstractType
 {
@@ -14,7 +16,9 @@ class LivraisonType extends AbstractType
         $builder
             ->add('type')
             ->add('artlib')
-            ->add('nom')
+            ->add('Nom', null, [ // Specify the type of field as 'null' to use default
+                'label' => 'Nom', // Optional: Customize the label
+            ]);
         ;
     }
 

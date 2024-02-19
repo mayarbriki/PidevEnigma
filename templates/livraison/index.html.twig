@@ -3,6 +3,7 @@
 {% block title %}Livraison index{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
     <h1>Livraison index</h1>
 
     <table class="table">
@@ -21,7 +22,7 @@
                 <td>{{ livraison.id }}</td>
                 <td>{{ livraison.type }}</td>
                 <td>{{ livraison.artlib }}</td>
-                <td>{{ livraison.nom }}</td>
+                <td>{{ livraison.Nom }}</td>
                 <td>
                     <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">Show</a>
                 </td>
@@ -35,4 +36,5 @@
     </table>
 
     <a href="{{ path('app_livraison_new') }}">Create new</a>
+ </main>
 {% endblock %}

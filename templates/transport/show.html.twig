@@ -3,6 +3,7 @@
 {% block title %}Transport{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
     <h1>Transport</h1>
 
     <table class="table">
@@ -31,4 +32,5 @@
     <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-primary">edit</a>
 
     {{ include('transport/_delete_form.html.twig') }}
+ </main>
 {% endblock %}

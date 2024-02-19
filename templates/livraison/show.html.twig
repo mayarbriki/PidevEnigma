@@ -3,6 +3,7 @@
 {% block title %}Livraison{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
     <h1>Livraison</h1>
 
     <table class="table">
@@ -29,4 +30,5 @@
     <a href="{{ path('app_livraison_index') }}">Back to list</a>
     <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">Edit</a>
     {{ include('livraison/_delete_form.html.twig') }}
+ </main>
 {% endblock %}

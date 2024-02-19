@@ -3,9 +3,11 @@
 {% block title %}New Transport{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
     <h1>Create new Transport</h1>
 
     {{ include('transport/_form.html.twig') }}
 
     <a href="{{ path('app_transport_index') }}" class="btn btn-primary">back to list</a>
+ </main>
 {% endblock %}
