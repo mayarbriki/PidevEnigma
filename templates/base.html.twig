@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ministore</title>
+    <title>Parapharma</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -133,9 +133,10 @@
     <header id="header" class="site-header header-scrolled position-fixed text-black bg-light">
       <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">
-            <img src="images/main-logo.png" class="logo">
-          </a>
+       <a class="navbar-brand" href="index.html">
+    <img src="{{ asset('images/main-logo.png') }}" class="logo" style="max-width: 100px;">
+</a>
+
           <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <svg class="navbar-icon">
               <use xlink:href="#navbar-icon"></use>
@@ -143,9 +144,10 @@
           </button>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
             <div class="offcanvas-header px-4 pb-0">
-              <a class="navbar-brand" href="index.html">
-                <img src="images/main-logo.png" class="logo">
-              </a>
+             <a class="navbar-brand" href="index.html">
+    <img src="{{ asset('images/main-logo.png') }}" class="logo" style="max-width: 100px;">
+</a>
+
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
             </div>
             <div class="offcanvas-body">
@@ -157,7 +159,7 @@
                   <a class="nav-link me-4" href="#company-services">Services</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#mobile-products">Products</a>
+<a class="nav-link me-4" href="{{ path('app') }}">Produits</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="#smart-watches">Watches</a>
@@ -181,7 +183,8 @@
                       <a href="shop.html" class="dropdown-item">Shop</a>
                     </li>
                     <li>
-                      <a href="cart.html" class="dropdown-item">Cart</a>
+                     <a href="{{ path('panier') }}" class="dropdown-item">Panier</a>
+
                     </li>
                     <li>
                       <a href="checkout.html" class="dropdown-item">Checkout</a>
@@ -215,9 +218,8 @@
                         </a>
                       </li>
                       <li>
-                        <a href="cart.html">
-                          <svg class="cart">
-                            <use xlink:href="#cart"></use>
+                 
+<a href="{{ path('panier') }}" class="dropdown-item">Cart</a>
                           </svg>
                         </a>
                       </li>
@@ -462,9 +464,7 @@
                   <div class="image-holder">
                     <img src="images/product-item6.jpg" alt="product-item" class="img-fluid">
                   </div>
-                  <div class="cart-concern position-absolute">
-                    <div class="cart-button d-flex">
-                      <a href="#" class="btn btn-medium btn-black">Add to Cart<svg class="cart-outline"><use xlink:href="#cart-outline"></use></svg></a>
+             
                     </div>
                   </div>
                   <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">

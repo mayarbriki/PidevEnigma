@@ -33,9 +33,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PanierController extends AbstractController
 {
-/**
-     * @Route("/panier", name="panier")
-     */
+   
+    #[Route('/panier', name: 'panier')]
     public function index(PanierRepository $repository , Request $request): Response
     {
         $d = $repository->findBy(['utilisateur'=>1])[0];
@@ -54,6 +53,7 @@ class PanierController extends AbstractController
                 'multiple'=>true,
                 'mapped'=>false,
 ])
+            
             ->add("Ajouter_produit",SubmitType::class)
             ->getForm();
         $form->handleRequest($request);
@@ -76,9 +76,9 @@ class PanierController extends AbstractController
         ]);
     }
 
-   /**
-     * @Route("/panierToCommande{idUtilisateur}", name="panierToCommande")
-     */
+  
+    #[Route('/panierToCommande{idUtilisateur}', name: 'panierToCommande')]
+
 
      public function panierToCommande(CommandeProduitRepository $commandeProduitRepository,ProduitRepository $produitRepository,UserRepository $utilisateurRepository,$idUtilisateur ,PanierRepository $repository, Request $request): Response
      {
@@ -132,6 +132,11 @@ class PanierController extends AbstractController
  
  
  
+     }
+     #[Route('/confirmer-commande', name: 'confirmer_commande')]
+     public function confirmerCommande(): Response
+     {
+         return $this->render('confirmer.html.twig');
      }
    
 }

@@ -38,12 +38,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>REFERENCE</th>
+                    
                     <th>LISTE PRODUIT</th>
                     <th>MONTANT</th>
                     <th>DATE</th>
-                    <th></th>
-                    <th>Status</th>
                     <th>SUPPRIMER</th>
                     
                      
@@ -54,7 +52,7 @@
             <tbody>
                 {% for i in data %}
                     <tr>
-                        <td>{{i.Reference}}</td>
+                        
                         <td>
                         {% for a in  i.getCommandeProduits().toArray() %}
                            <b>Nom</b> : {{ a.getProduit().nom}} | <b>Quantite </b> : {{ a.quantiteProduit }} | <b>Prix</b> : {{ a.getProduit().prix}} <br> 
@@ -62,20 +60,7 @@
                         </td>
                         <td> {{ i.montant }}DT</td>
                          <td class="invert"> {{ i.getDateCreation().format('j-m-y') }}</td>
-                        <td> {% if i.status == "En attente" %}
-  <td class="warning">{{ i.status }}</td>
- {% elseif i.status == "Confirmée" %}
-    <td class="success">{{ i.status }}</td>
- {% elseif i.status == "Annulée" %}
-    <td class="danger">{{ i.status }}</td>
- {% elseif i.status == "En cours de preparation" %}
-    <td class="info">{{ i.status }}</td>
- {% elseif i.status == "Livraison en cours" %}
-    <td class="info">{{ i.status }}</td>
- {% elseif i.status == "Livrée" %}
-    <td class="success">{{ i.status }}</td>
-
- {% endif %}</td>
+                        
                         <td> 
                          <a href="{{ path('commandeDelete',{'id':i.id}) }}">
                                        <div class="btn btn-sm btn-danger"> Supprimer </div>

@@ -35,17 +35,17 @@ class CategoryController extends AbstractController
     public function add2(ManagerRegistry $doctrine,Request $request): Response
     {
         $Category=new Category() ;
-        $form=$this->createForm(CategoryType::class,$Category); //sna3na objet essmo form aamlena bih appel lel Categorytype
+        $form=$this->createForm(CategoryType::class,$Category); 
         $form->handleRequest($request);
-        if( $form->isSubmitted() && $form->isValid() )   //amaalna verification esq taadet willa le aadna prob fi code ou nn
+        if( $form->isSubmitted() && $form->isValid() )   
        {
-        $em=$doctrine->getManager(); //appel lel manager
-        $em->persist($Category); //elli tzid
-        $em->flush(); //besh ysob fi base de donnee
+        $em=$doctrine->getManager(); 
+        $em->persist($Category); 
+        $em->flush(); 
         return $this->redirectToRoute('appback2');
         }
         return $this->render('category/add.html.twig', array("formCategory"=>$form->createView()));
-       // return $this->render('Category/add.html.twig', array("formCategory"=>$form->createView));
+       
 
     }
    
@@ -72,13 +72,20 @@ class CategoryController extends AbstractController
     #[Route('/Category/delete/{id}', name: 'delete2')]
 
     public function delete2($id, ManagerRegistry $doctrine)
-    {$c = $doctrine
-        ->getRepository(Category::class)
-        ->find($id);
+    {
+        $category = $doctrine
+            ->getRepository(Category::class)
+            ->find($id);
+    
+        if (!$category) {
+            throw $this->createNotFoundException('Category not found for id '.$id);
+        }
+    
         $em = $doctrine->getManager();
-        $em->remove($c);
-        $em->flush() ;
+        $em->remove($category);
+        $em->flush();
+    
         return $this->redirectToRoute('appback2');
     }
- 
+    
 }

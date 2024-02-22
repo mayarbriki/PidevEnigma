@@ -30,7 +30,7 @@ class ProduitController extends AbstractController
 {
     
    
-    #[Route('/Produit', name: 'app')]
+    #[Route('/produit', name: 'app')]
     public function affiche1(ManagerRegistry $em): Response
     {
         $repo=$em->getRepository(Produit::class);
@@ -39,7 +39,7 @@ class ProduitController extends AbstractController
    
        
     }
-    #[Route('/Produit/afficherback', name: 'appback')]
+    #[Route('/produit/afficherback', name: 'appback')]
     public function afficheback(ManagerRegistry $em): Response
     {
         $repo=$em->getRepository(Produit::class);
@@ -53,7 +53,7 @@ class ProduitController extends AbstractController
 
 
    
-    #[Route('/Produit/add', name: 'add1')]
+    #[Route('/produit/add', name: 'add1')]
     public function add1(ManagerRegistry $doctrine,Request $request, SluggerInterface $slugger): Response
     {
         $Produit=new Produit() ;
@@ -95,7 +95,7 @@ class ProduitController extends AbstractController
 
     }
 
-    #[Route('/Produit/update/{id}', name: 'update')]
+    #[Route('/produit/update/{id}', name: 'update')]
 
     public function  updateProduit (ManagerRegistry $doctrine,$id,  Request  $request) : Response
     { $Produit = $doctrine
@@ -115,7 +115,7 @@ class ProduitController extends AbstractController
 
     } 
 
-    #[Route('/Produit/delete/{id}', name: 'delete')]
+    #[Route('/produit/delete/{id}', name: 'delete')]
 
     public function delete($id, ManagerRegistry $doctrine)
     {$c = $doctrine
@@ -126,5 +126,44 @@ class ProduitController extends AbstractController
         $em->flush() ;
         return $this->redirectToRoute('appback');
     }
- 
+    #[Route('/produit/statistics', name: 'product_statistics')]
+    public function productStatistics(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $repository = $entityManager->getRepository(Produit::class);
+
+        // Get total number of products
+        $totalProducts = $repository->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Get average price of products
+        $averagePrice = $repository->createQueryBuilder('p')
+            ->select('AVG(p.prix)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Get highest priced product
+        $highestPricedProduct = $repository->createQueryBuilder('p')
+            ->orderBy('p.prix', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        // Get lowest priced product
+        $lowestPricedProduct = $repository->createQueryBuilder('p')
+            ->orderBy('p.prix', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        // Render the Twig template with the statistics data
+        return $this->render('produit/statistics.html.twig', [
+            'total_products' => $totalProducts,
+            'average_price' => $averagePrice,
+            'highest_priced_product' => $highestPricedProduct,
+            'lowest_priced_product' => $lowestPricedProduct,
+        ]);
+    }
 }
