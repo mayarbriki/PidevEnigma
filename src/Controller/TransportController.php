@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Transport;
-use App\Form\TransportType;
+use App\Form\Transport1Type;
 use App\Repository\TransportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +22,19 @@ class TransportController extends AbstractController
         ]);
     }
 
+    #[Route('/afficher_transport', name: 'aff_transport_index1', methods: ['GET'])]
+    public function index1(TransportRepository $transportRepository): Response
+    {
+        return $this->render('transport/index1.html.twig', [
+            'transports' => $transportRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_transport_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $transport = new Transport();
-        $form = $this->createForm(TransportType::class, $transport);
+        $form = $this->createForm(Transport1Type::class, $transport);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +61,7 @@ class TransportController extends AbstractController
     #[Route('/{id}/edit', name: 'app_transport_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Transport $transport, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TransportType::class, $transport);
+        $form = $this->createForm(Transport1Type::class, $transport);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

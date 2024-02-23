@@ -1,9 +1,8 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Transport{% endblock %}
 
 {% block body %}
-<main id="main" class="main">
     <h1>Transport</h1>
 
     <table class="table">
@@ -17,20 +16,27 @@
                 <td>{{ transport.type }}</td>
             </tr>
             <tr>
-                <th>Etat</th>
-                <td>{{ transport.etat }}</td>
+                <th>Marque</th>
+                <td>{{ transport.marque }}</td>
             </tr>
             <tr>
-                <th>DelaiLivMoy</th>
-                <td>{{ transport.DelaiLivMoy }}</td>
+                <th>Matricule</th>
+                <td>{{ transport.matricule }}</td>
+            </tr>
+            <tr>
+                <th>Anneefab</th>
+                <td>{{ transport.anneefab ? transport.anneefab|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ transport.etat }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_transport_index') }}" class="btn btn-primary">back to list</a>
+    <a href="{{ path('app_transport_index') }}">back to list</a>
 
-    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}" class="btn btn-primary">edit</a>
+    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
 
     {{ include('transport/_delete_form.html.twig') }}
- </main>
 {% endblock %}

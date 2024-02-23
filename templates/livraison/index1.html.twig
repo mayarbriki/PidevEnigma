@@ -1,4 +1,4 @@
-{% extends 'base-back.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Livraison index{% endblock %}
 
@@ -15,6 +15,7 @@
                 <th>Description</th>
                 <th>Etat</th>
                 <th>commande</th>
+                <th>Nom</th>
                 <th>matricule</th>
                 <th>actions</th>
             </tr>
@@ -28,10 +29,10 @@
                 <td>{{ livraison.description }}</td>
                 <td>{{ livraison.etat }}</td>
                 <td>{{ livraison.reference }}</td>
+                <td>{{ livraison.Nom }}</td>
                 <td>{{ livraison.matricule }}</td>
                 <td>
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">show</a>
-                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">edit</a>
+                    <a href="{{ path('aff_livraison_edit', {'id': livraison.id}) }}">affecter</a>
                 </td>
             </tr>
         {% else %}
@@ -41,7 +42,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_livraison_new') }}">Create new</a>
 </main>
 {% endblock %}

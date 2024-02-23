@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Livraison;
-use App\Form\LivraisonType;
+use App\Form\Livraison1Type;
+use App\Form\Livraison2Type;
 use App\Repository\LivraisonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,20 @@ class LivraisonController extends AbstractController
         ]);
     }
 
+    #[Route('/affecter', name: 'aff_livraison_index', methods: ['GET'])]
+    public function index1(LivraisonRepository $livraisonRepository): Response
+    {
+        return $this->render('livraison/index1.html.twig', [
+            'livraisons' => $livraisonRepository->findAll(),
+        ]);
+    }
+
+
     #[Route('/new', name: 'app_livraison_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $livraison = new Livraison();
-        $form = $this->createForm(LivraisonType::class, $livraison);
+        $form = $this->createForm(Livraison1Type::class, $livraison);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +63,7 @@ class LivraisonController extends AbstractController
     #[Route('/{id}/edit', name: 'app_livraison_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livraison $livraison, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(LivraisonType::class, $livraison);
+        $form = $this->createForm(Livraison1Type::class, $livraison);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,6 +73,24 @@ class LivraisonController extends AbstractController
         }
 
         return $this->renderForm('livraison/edit.html.twig', [
+            'livraison' => $livraison,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/affecter', name: 'aff_livraison_edit', methods: ['GET', 'POST'])]
+    public function edit1(Request $request, Livraison $livraison, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(Livraison2Type::class, $livraison);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('aff_livraison_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('livraison/edit1.html.twig', [
             'livraison' => $livraison,
             'form' => $form,
         ]);
@@ -78,6 +106,4 @@ class LivraisonController extends AbstractController
 
         return $this->redirectToRoute('app_livraison_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }
-

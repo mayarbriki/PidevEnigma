@@ -1,8 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Transport index{% endblock %}
 
 {% block body %}
+<main id="main" class="main">
     <h1>Transport index</h1>
 
     <table class="table">
@@ -14,7 +15,6 @@
                 <th>Matricule</th>
                 <th>Anneefab</th>
                 <th>Etat</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,18 +26,13 @@
                 <td>{{ transport.matricule }}</td>
                 <td>{{ transport.anneefab ? transport.anneefab|date('Y-m-d') : '' }}</td>
                 <td>{{ transport.etat }}</td>
-                <td>
-                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}">show</a>
-                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_transport_new') }}">Create new</a>
+ </main>
 {% endblock %}
