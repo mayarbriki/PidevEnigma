@@ -16,126 +16,93 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_creation = null;
+    #[ORM\Column( nullable: true)]
+    private ?bool $sent = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\OneToOne(inversedBy: 'commande', cascade: ['persist', 'remove'])]
+    private ?Panier $panier = null;
 
     #[ORM\Column]
-    private ?float $montant = null;
-
-    #[ORM\Column(type: Types::STRING)]
-    private ?string $reference = null;
-
-    #[ORM\OneToMany(mappedBy: 'Commande',cascade:['persist','remove'], targetEntity: CommandeProduit::class)]
-    private Collection $commandeProduits;
+    private ?int $totale = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?User $utilisateur = null;
+    private ?User $user = null;
 
-    public function __construct()
-    {
-        $this->date_creation = date_create();
-        $this->commandeProduits = new ArrayCollection();
-
-    }
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+ 
+   
+    
+     
+ 
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    public function getDateCreation(): ?\DateTimeInterface
+    public function isSent(): ?bool
     {
-        return $this->date_creation;
+        return $this->sent;
     }
-    public function setDateCreation(\DateTimeInterface $date_creation): self
+
+    public function setSent(bool $sent): static
     {
-        $this->date_creation = $date_creation;
+        $this->sent = $sent;
 
         return $this;
     }
 
-
-    public function getStatus(): ?string
+    public function getPanier(): ?Panier
     {
-        return $this->status;
+        return $this->panier;
     }
-    public function setStatus(string $status): self
+
+    public function setPanier(?Panier $panier): static
     {
-        $this->status = $status;
+        $this->panier = $panier;
 
         return $this;
     }
 
-
-    public function getMontant(): ?float
+    public function getTotale(): ?int
     {
-        return $this->montant;
+        return $this->totale;
     }
-    public function setMontant(float $montant): self
+
+    public function setTotale(int $totale): static
     {
-        $this->montant = $montant;
+        $this->totale = $totale;
 
         return $this;
     }
 
-
-    public function getReference(): ?string
+    public function getUser(): ?User
     {
-        return $this->reference;
+        return $this->user;
     }
-    public function setReference(string $reference): self
+
+    public function setUser(?User $user): static
     {
-        $this->reference = $reference;
+        $this->user = $user;
 
         return $this;
     }
 
-
-    
-    /**
-     * @return Collection<int, CommandeProduit>
-     */
-    public function getCommandeProduits(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->commandeProduits;
+        return $this->createdAt;
     }
 
-    public function addCommandeProduit(CommandeProduit $commandeProduit): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        if (!$this->commandeProduits->contains($commandeProduit)) {
-            $this->commandeProduits->add($commandeProduit);
-            $commandeProduit->setCommande($this);
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function removeCommandeProduit(CommandeProduit $commandeProduit): self
-    {
-        if ($this->commandeProduits->removeElement($commandeProduit)) {
-            // set the owning side to null (unless already changed)
-            if ($commandeProduit->getCommande() === $this) {
-                $commandeProduit->setCommande(null);
-            }
-        }
+ 
 
-        return $this;
-    }
-
-    public function getUtilisateur(): ?User
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?User $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
+ 
+  
 }

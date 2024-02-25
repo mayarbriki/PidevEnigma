@@ -1,0 +1,100 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}E-FIT!
+{% endblock %}
+{% block cart %}{% endblock %}
+
+{% block body %}
+
+
+<div class="bg-light p-3">
+    Mes commandes :
+
+
+    <div class="container">
+        <div class="contianer">
+            <table class="table">
+                <thead>
+                    <th>
+                        Ref°
+                    </th>
+                    <th>
+                        Client
+                    </th>
+                    <th>
+                        Totale en (TND)
+                    </th>
+                    <th>
+                        Envoyé le
+                    </th>
+                    <th colspan="3">
+                        Traitement
+                    </th>
+
+                </thead>
+                <tbody>
+                    {% for x in commandes %}
+
+                    <tr>
+                        <td>
+
+                            {{x.id}}
+                        </td>
+                        <td>
+
+                            <a href="/user/{{x.user.id}}"> {{x.user.email}}</a>
+                        </td>
+                        <td>
+                            {{x.totale}}
+                            TND
+                        </td>
+                        <td>
+                            {{x.createdAt|date("m/d/Y")}}
+
+                        </td>
+                        <td>
+                            {% if x.sent %}
+                            <span style="border-radius: 35px;" class="bg-success border p-2">
+                                Accepté</span>
+                        </td>
+                        {% elseif x.sent is null %}
+                        <span style="border-radius: 35px;" class="bg-warning  p-2">En cours
+                            </td>
+                            <td><a href="/c/accepte/{{x.id}}" class="btn btn-success">confirmé</a></td>
+                            <td><a href="/c/refuser/cmd/{{x.id}}" class="btn btn-danger">refusé</a></td>
+
+
+
+                        </span>
+                        {% else %}
+                        <span style="border-radius: 35px;" class="bg-danger p-2">Réfusé </span>
+                        </td> <a href=""></a> {% endif %}
+
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>
+                            <span> style="color: red;">No data </span>
+                        </td>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </td>
+                    </tr>
+                </tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<nav class="app-pagination mt-5">
+    <ul class="pagination justify-content-center">
+        {{ knp_pagination_render(commandes) }}
+    </ul>
+</nav>
+
+
+{% endblock %}

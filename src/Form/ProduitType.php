@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Produit;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -44,7 +45,10 @@ class ProduitType extends AbstractType
                     //])
                 //],
             ])
-             ->add('Categorys')
+            ->add('Categorys', null, [
+                'required' => true,
+                // Add any other options you may need
+            ])
             
 
         ;

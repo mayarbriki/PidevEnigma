@@ -5,13 +5,18 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements  UserInterface, PasswordAuthenticatedUserInterface
 {
+   
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,6 +25,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    /**
+     * @var list<string> The user roles
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -28,28 +36,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+    public function getSalt()
+    {
+        // Return null, as modern password encryption methods don't require a separate salt.
+        return null;
+    }
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $prenom = null;
+    public function getUsername()
+    {
+        // Return the unique identifier for the user. This is often the username or email.
+        return $this->email; // Assuming email is the unique identifier for the user.
+    }
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ville = null;
+    private ?string $prename = null;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthday = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $adress = null;
+ 
+
+  
+
+    #[ORM\Column]
+    private ?int $phone = null;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Panier $panier = null;
+
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'user')]
     private Collection $commandes;
 
-
-    #[ORM\OneToOne(mappedBy: 'utilisateur',cascade:['persist','remove'], targetEntity: Panier::class)]
-    private $panier;
+    #[ORM\OneToMany(targetEntity: Historique::class, mappedBy: 'user')]
+    private Collection $historiques;
 
     public function __construct()
     {
-        
         $this->commandes = new ArrayCollection();
+        $this->historiques = new ArrayCollection();
     }
+
+     
 
     public function getId(): ?int
     {
@@ -68,6 +99,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+     
+
     /**
      * A visual identifier that represents this user.
      *
@@ -79,15 +112,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
      * @see UserInterface
+     *
+     * @return list<string>
      */
     public function getRoles(): array
     {
@@ -98,6 +125,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -120,17 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
+    
     /**
      * @see UserInterface
      */
@@ -140,38 +160,76 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(?string $nom): static
+    public function setName(string $name): static
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrename(): ?string
     {
-        return $this->prenom;
+        return $this->prename;
     }
 
-    public function setPrenom(?string $prenom): static
+    public function setPrename(string $prename): static
     {
-        $this->prenom = $prenom;
+        $this->prename = $prename;
 
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getBirthday(): ?\DateTimeInterface
     {
-        return $this->ville;
+        return $this->birthday;
     }
 
-    public function setVille(string $ville): static
+    public function setBirthday(\DateTimeInterface $birthday): static
     {
-        $this->ville = $ville;
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): static
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+     
+    
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(?Panier $panier): static
+    {
+        $this->panier = $panier;
 
         return $this;
     }
@@ -184,57 +242,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->commandes;
     }
 
-    public function addCommande(Commande $commande): self
+    public function addCommande(Commande $commande): static
     {
         if (!$this->commandes->contains($commande)) {
             $this->commandes->add($commande);
-            $commande->setUtilisateur($this);
+            $commande->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): self
+    public function removeCommande(Commande $commande): static
     {
         if ($this->commandes->removeElement($commande)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getUtilisateur() === $this) {
-                $commande->setUtilisateur(null);
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
             }
         }
 
         return $this;
     }
 
-    public function getPanier(): ?Panier
+    /**
+     * @return Collection<int, Historique>
+     */
+    public function getHistoriques(): Collection
     {
-        return $this->panier;
+        return $this->historiques;
     }
 
-   /* public function setPanier(?Panier $panier): self
+    public function addHistorique(Historique $historique): static
     {
-        $this->panier = $panier;
-
-        return $this;
-    }*/
-    public function setPanier(?Panier $panier): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($panier === null && $this->panier !== null) {
-            $this->panier->setUtilisateur(null);
+        if (!$this->historiques->contains($historique)) {
+            $this->historiques->add($historique);
+            $historique->setUser($this);
         }
-
-        // set the owning side of the relation if necessary
-        if ($panier !== null && $panier->getUtilisateur() !== $this) {
-            $panier->setUtilisateur($this);
-        }
-
-        $this->panier = $panier;
 
         return $this;
     }
-    public function __toString()
+
+    public function removeHistorique(Historique $historique): static
     {
-        return sprintf('%s: %s ', $this->nom, $this->prenom);
+        if ($this->historiques->removeElement($historique)) {
+            // set the owning side to null (unless already changed)
+            if ($historique->getUser() === $this) {
+                $historique->setUser(null);
+            }
+        }
+
+        return $this;
     }
+
+   
+
+    
+ 
+
+    
+ 
 }

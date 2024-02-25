@@ -39,24 +39,20 @@ class Produit
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Category $Categorys = null;
 
-  
-    #[ORM\OneToMany(mappedBy: 'Produit', cascade: ['persist', 'remove'], targetEntity: CommandeProduit::class)]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private Collection $Commande;
-
-    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'Produits')]
-    private Collection $paniers;
-
-   
-
-    
+    #[ORM\ManyToMany(targetEntity: Panier::class, inversedBy: 'produits')]
+    private Collection $panier;
 
     public function __construct()
     {
-        $this->Commande = new ArrayCollection();
-        $this->paniers = new ArrayCollection();
-        
+        $this->panier = new ArrayCollection();
     }
+ 
+
+  
+    
+
+    
+ 
 
     public function getId(): ?int
     {
@@ -135,58 +131,18 @@ class Produit
         return $this;
     }
 
-    public function __toString()
-    {
-        return (string) $this->getNom();
-        $this->getDescription();
-        $this->getQuantite();
-        $this->getPrix();
-        $this->getImage();
-        $this->getCategorys();
-    }
-
-    /**
-     * @return Collection<int, CommandeProduit>
-     */
-    public function getCommande(): Collection
-    {
-        return $this->Commande;
-    }
-    public function addCommande(CommandeProduit $commande): self
-    {
-        if (!$this->Commande->contains($commande)) {
-            $this->Commande->add($commande);
-            $commande->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(CommandeProduit $commande): self
-    {
-        if ($this->Commande->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
-            if ($commande->getProduit() === $this) {
-                $commande->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Panier>
      */
-    public function getPaniers(): Collection
+    public function getPanier(): Collection
     {
-        return $this->paniers;
+        return $this->panier;
     }
 
     public function addPanier(Panier $panier): static
     {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->addProduit($this);
+        if (!$this->panier->contains($panier)) {
+            $this->panier->add($panier);
         }
 
         return $this;
@@ -194,12 +150,20 @@ class Produit
 
     public function removePanier(Panier $panier): static
     {
-        if ($this->paniers->removeElement($panier)) {
-            $panier->removeProduit($this);
-        }
+        $this->panier->removeElement($panier);
 
         return $this;
     }
+
+   
+    
+    
+
+     
+    
+
+    
+    
 
     
 }

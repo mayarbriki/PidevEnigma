@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Historique;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\user;
 use App\Entity\Commande;
+use App\Entity\Panier;
 use App\Entity\Produit;
 use App\Repository\CommandeRepository;
 use App\Repository\PanierRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,40 +24,84 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class CommandeController extends AbstractController
 {
    
-    //commentaire
     
     /**
-     * @Route ("/commande", name="commande")
+     * @Route ("/sent/{id}", name="sent")
      */
-    public function index(Request $req ,PanierRepository $panierRepository, CommandeRepository $repository): Response
+    public function new (Panier $panier ,  EntityManagerInterface $em): Response
     {
-        $data = $repository->findBy(['utilisateur'=>1]);
-        $d = $panierRepository->findBy(['utilisateur'=>1])[0];
-        $sum = $d->getProduits()->count();
-        $dataTarray = $d->getProduits()->toArray();
-        $total=0.0;
-        foreach ($dataTarray as $p){
-            $total += ($p->getPrix() * $p->getQuantite());
+
+        $total = 0;
+        foreach ($panier->getProduits() as $produit) {
+            $total += $produit->getPrix();
         }
+
+        $c = new Commande;
+        $c->setPanier($panier);
+        $c->setTotale($total);
+        $c->setUser($this->getUser());
+        $c->setCreatedAt(new \DateTimeImmutable('now'));
+
+        $em->persist($c);
+        $em->flush();
+
+        $h = new Historique;
+        $h->setTotale($total);
+        $h->setRefCommande($c->getId());
+         $h->setUser($this->getUser() );
+        $h->setCreatedAt(new \DateTimeImmutable('now'));
+
+         
+        
+        $em->persist($h);
+        $em->flush();
+
+
+
+        return $this->redirectToRoute('app');
+    }
+
+    #[Route('/commande', name: 'app_commande')]
+    public function index(CommandeRepository $cr): Response
+    {
         return $this->render('commande/index.html.twig', [
-            'data'=>$data , 'sumP'=>$sum , 'total'=>$total
+            'commandes' => $cr->findAll(),
         ]);
     }
-
-    /**
-     * @Route ("/commandeDelete/{id}", name="commandeDelete")
-     */
-    public function delete(CommandeRepository $repository , $id): Response
+    #[Route('/commande-admin', name: 'app_commande_admin')]
+    public function indexadmin(CommandeRepository $cr ,Request $request , PaginatorInterface $pg): Response
     {
-        $comm =$repository->find($id) ;
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($comm);
-        $manager->flush();
-        //return new Response('suppression avec succes');
-        return $this->redirectToRoute('commande');
+
+        $pagination = $pg->paginate(
+
+            $cr->findAll(),
+            $request->query->get('page', 1),
+            2
+        );  
+
+
+
+        return $this->render('commande/admin.html.twig', [
+            'commandes' => $pagination,
+        ]);
     }
-
-
-
+    #[Route('/c/accepte/{id}', name: 'app_commande_accepte')]
+    public function accepte(Commande $c , EntityManagerInterface $em): Response
+    {
+        $c->setSent(true);
+        $em->persist($c);
+        $em->flush();
+return $this->redirectToRoute('app_commande_admin');
+        
+    }
+    #[Route('/c/refuser/cmd/{id}', name: 'app_commande_refuser')]
+    public function refuser(Commande $c , EntityManagerInterface $em): Response
+    {
+        $c->setSent(false);
+        $em->persist($c);
+        $em->flush();
+return $this->redirectToRoute('app_commande_admin');
+        
+    }
       
 }

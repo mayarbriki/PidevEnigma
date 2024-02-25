@@ -1,84 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}E-FIT!{% endblock %}
+{% block title %}E-FIT!
+{% endblock %}
 {% block cart %}
 
 
 
 
-								<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<i class="fa fa-shopping-cart"></i>
-										<span>Mon panier</span>	
-                                        <div class="qty">0</div>
-									</a>
-
-                                    <div class="cart-dropdown">
-
-                                  
-
-										<div class="cart-btns">
-											<a href="{{ path('panier',) }}" >Voir Panier</a>
-                                            <a href="#">Commander <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
-									
-								</div>
-                             
-  
 {% endblock %}
 
- {% block body %}
+{% block body %}
 
 
- <div class="bg-light p-3">
-       <h3>Vos commandes : <span> {{ data|length}} Commande(s)</span></h3>
-    </div>
+<div class="bg-light p-3">
+    <h1>Mes commandes :
+    </h1>
 
-    
-        <table class="table">
-            <thead>
-                <tr>
-                    
-                    <th>LISTE PRODUIT</th>
-                    <th>MONTANT</th>
-                    <th>DATE</th>
-                    <th>SUPPRIMER</th>
-                    
-                     
-                     
-                        
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in data %}
+
+    <div class="container">
+        <div class="contianer">
+            <table>
+                <thead>
+                    <th>
+                        <h1>Ref°</h1>
+                    </th>
+                    <th>
+                        <h1>Totale en (TND)</h1>
+                    </th>
+                    <th>
+                        <h1>Traitement</h1>
+                    </th>
+
+                </thead>
+                <tbody>
+                    {% for x in commandes %}
+
                     <tr>
-                        
                         <td>
-                        {% for a in  i.getCommandeProduits().toArray() %}
-                           <b>Nom</b> : {{ a.getProduit().nom}} | <b>Quantite </b> : {{ a.quantiteProduit }} | <b>Prix</b> : {{ a.getProduit().prix}} <br> 
-                        {% endfor %}
+                            <h1> {{x.id}}</h1>
                         </td>
-                        <td> {{ i.montant }}DT</td>
-                         <td class="invert"> {{ i.getDateCreation().format('j-m-y') }}</td>
-                        
-                        <td> 
-                         <a href="{{ path('commandeDelete',{'id':i.id}) }}">
-                                       <div class="btn btn-sm btn-danger"> Supprimer </div>
-                       </a>
+                        <td>
+                            <h1>{{x.totale}} TND</h1>
                         </td>
-                   
+                        <td>
+                            {% if x.sent %}
+                            <h1 style="border-radius: 35px;" class="bg-success border p-2"> Accepté</h1>
+                            {% elseif x.sent is null %}
+                            <h1 style="border-radius: 35px;" class="bg-warning  p-2">En cours</h1>
+                            {% else %}
+                            <h1 style="border-radius: 35px;" class="bg-danger p-2">Réfusé</h1>
+                            {% endif %}
+                        </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        
-             
-        </table>
-      
-       
-      
-   
+                    {% else %}
+                    <tr>
+                        <td>
+                            <h1 style="color: red;">No data</h1>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h5>Pour vous assiter vou devez contacter nous sur :</h5>
+    <ul>
+        <li>Email :yourinfo@gmail.com</li>
+        <li>Phone :+216 98 125 599</li>
+    </ul>
+</div>
+
+
+
 
 {% endblock %}
-
-
-        

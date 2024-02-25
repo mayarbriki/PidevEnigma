@@ -17,6 +17,7 @@ use App\Repository\UserRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\PanierRepository;
 use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -34,109 +35,79 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class PanierController extends AbstractController
 {
    
-    #[Route('/panier', name: 'panier')]
-    public function index(PanierRepository $repository , Request $request): Response
+    #[Route('/panier/{id}', name: 'panier')]
+    public function index(Produit $produit ,PanierRepository $repository , EntityManagerInterface $em , Request $request): Response
     {
-        $d = $repository->findBy(['utilisateur'=>1])[0];
-        $sum = $d->getProduits()->count();
-        $data = $d->getProduits()->toArray();
-        $total=0.0;
-        foreach ($data as $p){
-            $total += ($p->getPrix() * $p->getQuantite());
+        if (!$this->getUser()) {
+             return $this->redirectToRoute('app_login');  
         }
-        //$newPanier = new Panier();
-        $form = $this->createFormBuilder($d)
-           // ->add("utilisateur",EntityType::class, ['class'=> User::class, 'choice_label' => 'nom'])
-            ->add('produits',EntityType::class,[
-                'class'=>Produit::class,
-                'choice_label'=>'nom',
-                'multiple'=>true,
-                'mapped'=>false,
-])
-            
-            ->add("Ajouter_produit",SubmitType::class)
-            ->getForm();
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid() ) {
-            $em = $this->getDoctrine()->getManager();
-            foreach ($request->request->get('form')['produits'] as $PID){
-                $produit = $this->getDoctrine()->getRepository(Produit::class)->find($PID);
-                $d->addProduit($produit);
-                $em->flush();
-            }
-           // dd($newPanier->getProduits());
-
-             //$em->persist($newPanier);
+        $user = $this->getUser();
+        $panier = $user->getPanier();
+         if ($panier) {
+            $panier->addProduit($produit);
             $em->flush();
-            return $this->redirectToRoute('panier');
-        }
+        }else{
+            $panier = new Panier;
 
-        return $this->render('panier/index.html.twig', [
-            'formP' => $form->createView(),'data' => $data , 'sumP'=>$sum , 'total'=>$total
-        ]);
+            $panier->setUser($user);
+            $panier->addProduit($produit);
+            $em->persist($panier);
+            $em->flush();
+        }
+        
+       
+       
+
+
+
+       return $this->redirectToRoute('app');
     }
 
   
-    #[Route('/panierToCommande{idUtilisateur}', name: 'panierToCommande')]
+    #[Route('/panier/show/{id}', name: 'app_panier_show')]
+     public function panierToCommande(Panier $panier): Response
+     {
+        
+  
+        return $this->render('panier/show.html.twig',[
+            'panier'=>$panier
+        ]);
+    }
+    #[Route('/panier/remove/produit/{id}', name: 'app_panier_remove')]
+     public function removeproduit(Produit $p ,EntityManagerInterface $em): Response
+     {
+        $user = $this->getUser();
+
+        $panier = $user->getPanier();
+        $panier->removeProduit($p)  ;
+        $em->flush();
+  
+        return $this->render('panier/show.html.twig',[
+            'panier'=>$panier
+        ]);
+    }
+     
+    #[Route('/supprimer/le/panier/{id}', name: 'app_panier_supp_panier')]
+    public function reset(Panier $panier ,EntityManagerInterface $em): Response
+    {
+
+        foreach ($panier->getProduits() as $produit) {
+            $panier->removeProduit($produit);
 
 
-     public function panierToCommande(CommandeProduitRepository $commandeProduitRepository,ProduitRepository $produitRepository,UserRepository $utilisateurRepository,$idUtilisateur ,PanierRepository $repository, Request $request): Response
-     {
- 
-         $newCommande = new Commande();
-         $prixTot=0;
-         $panier = $repository->findBy(['utilisateur' => $idUtilisateur])[0];
-         foreach($panier->getProduits()->toArray() as $p){
-             $pr = $produitRepository->find($p->getId());
-             $prixTot =$prixTot+ $pr->getPrix();
-         }
-         $newCommande->setUtilisateur($utilisateurRepository->find($idUtilisateur));
-         $newCommande->setStatus("En Attente");
-         $newCommande->setReference(random_bytes(10));
-         $newCommande->setMontant($prixTot);
-         $newCommande->setDateCreation(new \DateTime());
-         $em = $this->getDoctrine()->getManager();
-         $em->persist($newCommande);
-         foreach($panier->getProduits()->toArray() as $p){
-             $pr = $produitRepository->find($p->getId());
-             $commandeProduit = new CommandeProduit();
-             $commandeProduit->setCommande($newCommande);
-             $commandeProduit->setProduit($pr);
-             $commandeProduit->setQuantiteProduit($pr->getQuantite());
-             $em->persist($commandeProduit);
-             $newCommande->addCommandeProduit($commandeProduit);
-             $pr->setQuantite(1);
-             $panier->removeProduit($p);
-             
-         }
-         $em->flush();
-         return $this->redirectToRoute('commande');
-     }
-     /**
-      * @Route("/removeP{id}", name="removeP")
-      */
-     public function removeP( $id,PanierRepository $repository , Request $request): Response
-     {
-         $d = $repository->findBy(['utilisateur'=>1])[0];
-             $em = $this->getDoctrine()->getManager();
-                 $produit = $this->getDoctrine()->getRepository(Produit::class)->find($id);
-                 $d->removeProduit($produit);
-                 $produit->setQuantite(1);
-                 $em->flush();
- 
-             // dd($newPanier->getProduits());
- 
-             //$em->persist($newPanier);
- 
-             return $this->redirectToRoute('panier');
- 
- 
- 
-     }
-     #[Route('/confirmer-commande', name: 'confirmer_commande')]
-     public function confirmerCommande(): Response
-     {
-         return $this->render('confirmer.html.twig');
-     }
+             $em->persist($panier);
+        }
+
+
+       
+        $em->flush();
+        
+        return $this->redirectToRoute('app');
+
+       
+   }
+
+    
+     
    
 }

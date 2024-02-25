@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Repository\PanierRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use PhpParser\Node\Expr\Cast\String_;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 class Panier
@@ -15,80 +15,41 @@ class Panier
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-  
-    
-    
 
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'panier')]
+    private Collection $produits;
 
-    #[ORM\OneToOne(inversedBy: 'panier',cascade:['persist','remove'], targetEntity: User::class)]
-    private ?User $utilisateur = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $owner = null;
 
-    #[ORM\ManyToMany(targetEntity: Produit::class, inversedBy: 'paniers')]
-    private Collection $Produits;
+    #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
+    #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
+    private ?Commande $commande = null;
 
     public function __construct()
     {
-        $this->Produits = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
-
-    
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
-   
-
-
-    /*
-     * @return Collection<int, User>
-    
-    public function getUtilisateur():User 
-    {
-        return $this->utilisateur;
-    }
-    public function setUlisateur(?User $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
-   public function addUtilisateur(User $utilisateur): self
-    {
-        if (!$this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur->add($utilisateur);
-            $utilisateur->setPanier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateur(User $utilisateur): self
-    {
-        if ($this->utilisateur->removeElement($utilisateur)) {
-            // set the owning side to null (unless already changed)
-            if ($utilisateur->getPanier() === $this) {
-                $utilisateur->setPanier(null);
-            }
-        }
-
-        return $this;
-    }  */
 
     /**
      * @return Collection<int, Produit>
      */
     public function getProduits(): Collection
     {
-        return $this->Produits;
+        return $this->produits;
     }
 
     public function addProduit(Produit $produit): static
     {
-        if (!$this->Produits->contains($produit)) {
-            $this->Produits->add($produit);
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addPanier($this);
         }
 
         return $this;
@@ -96,8 +57,60 @@ class Panier
 
     public function removeProduit(Produit $produit): static
     {
-        $this->Produits->removeElement($produit);
+        if ($this->produits->removeElement($produit)) {
+            $produit->removePanier($this);
+        }
 
         return $this;
+    }
+
+    
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setPanier(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getPanier() !== $this) {
+            $user->setPanier($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($commande === null && $this->commande !== null) {
+            $this->commande->setPanier(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($commande !== null && $commande->getPanier() !== $this) {
+            $commande->setPanier($this);
+        }
+
+        $this->commande = $commande;
+
+        return $this;
+    } 
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 }

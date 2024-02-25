@@ -21,25 +21,36 @@ use App\Entity\CommandeProduit;
 use App\Repository\CommandeProduitRepository;
 use App\Repository\UserRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\ProduitRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-
-
-
- 
 class ProduitController extends AbstractController
 {
     
    
     #[Route('/produit', name: 'app')]
-    public function affiche1(ManagerRegistry $em): Response
+    public function affiche1(ProduitRepository $pr, Request $request ,PaginatorInterface $pg): Response
     {
-        $repo=$em->getRepository(Produit::class);
-        $result=$repo->findAll();
-        return $this->render ('produit/affich.html.twig',['Produit'=>$result]);
+
+        $pagination = $pg->paginate(
+
+            $pr->findAll(),
+            $request->query->get('page', 1),
+            3
+        );    
+           if (!$this->isGranted('ROLE_ADMIN')) {
+
+        
+
+        return $this->render ('produit/affich.html.twig',[    'pagination'=>$pagination]);
+    }else{
+    return $this->render ('produit/back.html.twig',[  'pagination'=>$pagination]);
+}
    
        
     }
-    #[Route('/produit/afficherback', name: 'appback')]
+  /*  #[Route('/produit/afficherback', name: 'appback')]
     public function afficheback(ManagerRegistry $em): Response
     {
         $repo=$em->getRepository(Produit::class);
@@ -48,7 +59,7 @@ class ProduitController extends AbstractController
    
        
     }
-
+*/
 
 
 
