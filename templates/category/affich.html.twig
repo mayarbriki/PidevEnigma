@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category{% endblock %}
+
+{% block body %}
+{%for i in Category%}
+					<div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Category</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>Category</strong></div>
+							</div>
+							
+							<div class="order-col">
+								<div>Nom de Category</div>
+                                    <div>{{i.Nom}}</div>
+							</div>
+							
+                            <div class="order-col">
+								<div>1x Description du Category </div>
+                                <div>{{i.Description}}</div>
+							</div>
+
+							<div class="order-col">
+								<div>1x prix du Category </div>
+                                <div>{{i.Prix}}</div>
+							</div>
+
+							 <div class="order-col">
+								<div>1x image </div>
+                                <div>{{i.Image}}</div>
+								
+							</div>
+
+							<div class="order-col">
+								<div>1x Category du Category</div>
+                               
+								<div><strong class="order-total"> <div>{{i.Category}}</div></strong></div>
+							</div>
+                           
+						</div>
+                        
+						
+							<div class="input-radio">
+								<input type="radio" name="payment" id="payment-2">
+								
+								
+							</div>
+						
+						<a href="#" class="primary-btn order-submit">Acheter votre Category</a>
+					</div>
+                    <div>
+     
+{%endfor%}
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}E-FIT!
+{% endblock %}
+{% block cart %}{% endblock %}
+
+{% block body %}
+
+
+<div class="bg-light p-3">
+    <h1>Mes commandes :
+    </h1>
+
+
+    <div class="container">
+        <div class="contianer">
+
+            <ul>
+                {% for x in histo %}
+                {% if x.user == app.user %}
+
+                <li>
+
+
+
+                    <h2>Vous Avez passer un commande de Ref° <b>
+                            {{x.refCommande}}</b> et de totale<b> {{x.totale}}TND</b> le {{x.createdAt|date('d-m-Y
+                        h:m')}}</h2>
+
+                </li>
+                {% endif %}
+                {% else %}
+                <li>
+                    <h2>Tu doit passer un commande dabord
+                    </h2>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+            <br><br><br>
+            <h5>Pour vous assiter vou devez contacter nous sur :</h5>
+            <ul>
+                <li>Email :yourinfo@gmail.com</li>
+                <li>Phone :+216 98 125 599</li>
+            </ul>
+        </div>
+
+
+        {% endblock %}

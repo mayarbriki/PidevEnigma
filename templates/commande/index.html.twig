@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}E-FIT!
+{% endblock %}
+{% block cart %}
+
+
+
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="bg-light p-3">
+    <h1>Mes commandes :
+    </h1>
+
+
+    <div class="container">
+        <div class="contianer">
+            <table>
+                <thead>
+                    <th>
+                        <h1>Ref°</h1>
+                    </th>
+                    <th>
+                        <h1>Totale en (TND)</h1>
+                    </th>
+                    <th>
+                        <h1>Traitement</h1>
+                    </th>
+
+                </thead>
+                <tbody>
+                    {% for x in commandes %}
+
+                    <tr>
+                        <td>
+                            <h1> {{x.id}}</h1>
+                        </td>
+                        <td>
+                            <h1>{{x.totale}} TND</h1>
+                        </td>
+                        <td>
+                            {% if x.sent %}
+                            <h1 style="border-radius: 35px;" class="bg-success border p-2"> Accepté</h1>
+                            {% elseif x.sent is null %}
+                            <h1 style="border-radius: 35px;" class="bg-warning  p-2">En cours</h1>
+                            {% else %}
+                            <h1 style="border-radius: 35px;" class="bg-danger p-2">Réfusé</h1>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>
+                            <h1 style="color: red;">No data</h1>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h5>Pour vous assiter vou devez contacter nous sur :</h5>
+    <ul>
+        <li>Email :yourinfo@gmail.com</li>
+        <li>Phone :+216 98 125 599</li>
+    </ul>
+</div>
+
+
+
+
+{% endblock %}
