@@ -16,18 +16,62 @@ use Symfony\Component\Routing\Annotation\Route;
 class LivraisonController extends AbstractController
 {
     #[Route('/', name: 'app_livraison_index', methods: ['GET'])]
-    public function index(LivraisonRepository $livraisonRepository): Response
+    public function index(Request $request, LivraisonRepository $livraisonRepository): Response
     {
+        // Default sorting parameters
+        $sortBy = $request->query->get('sort_by', 'id');
+        $order = $request->query->get('order', 'ASC');
+
+        // Fetch livraisons from the repository with sorting
+        $livraisons = $livraisonRepository->findBy([], [$sortBy => $order]);
+
+        $query = $request->query->get('query');
+
+        if ($query) {
+            // Perform search using repository method
+            $searchResults = $livraisonRepository->search($query);
+            // Overwrite livraisons with search results
+            $livraisons = $searchResults;
+        } else {
+            // If no search query, load default data for dashboard
+            $searchResults = [];
+        }
+
         return $this->render('livraison/index.html.twig', [
-            'livraisons' => $livraisonRepository->findAll(),
+            'livraisons' => $livraisons,
+            'searchResults' => $searchResults,
+            'sortBy' => $sortBy,
+            'order' => $order,
         ]);
     }
 
     #[Route('/affecter', name: 'aff_livraison_index', methods: ['GET'])]
-    public function index1(LivraisonRepository $livraisonRepository): Response
+    public function index1(Request $request, LivraisonRepository $livraisonRepository): Response
     {
+        // Default sorting parameters
+        $sortBy = $request->query->get('sort_by', 'id');
+        $order = $request->query->get('order', 'ASC');
+
+        // Fetch livraisons from the repository with sorting
+        $livraisons = $livraisonRepository->findBy([], [$sortBy => $order]);
+
+        $query = $request->query->get('query');
+
+        if ($query) {
+            // Perform search using repository method
+            $searchResults = $livraisonRepository->search($query);
+            // Overwrite livraisons with search results
+            $livraisons = $searchResults;
+        } else {
+            // If no search query, load default data for dashboard
+            $searchResults = [];
+        }
+
         return $this->render('livraison/index1.html.twig', [
-            'livraisons' => $livraisonRepository->findAll(),
+            'livraisons' => $livraisons,
+            'searchResults' => $searchResults,
+            'sortBy' => $sortBy,
+            'order' => $order,
         ]);
     }
 

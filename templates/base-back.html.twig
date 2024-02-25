@@ -18,6 +18,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 {% block css%}
   <!-- Vendor CSS Files -->
+  <link rel="stylesheet" type="text/css" href="{{asset('css/buttonstyle.css')}}">
   <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
@@ -51,12 +52,12 @@
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
+   {# <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="GET" action="{{ path(app.request.attributes.get('_route'), app.request.query.all) }}">
         <input type="text" name="query" placeholder="Search" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
-    </div><!-- End Search Bar -->
+    </div><!-- End Search Bar -->#}
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">

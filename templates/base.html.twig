@@ -11,6 +11,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 {% block css%}
+    <link rel="stylesheet" type="text/css" href="{{asset('css/buttonstyle.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('style.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -96,10 +97,10 @@
     <div class="search-popup">
         <div class="search-popup-container">
 
-          <form role="search" method="get" class="search-form" action="">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="s" />
+         {# <form role="search" method="GET" class="search-form" action="{{ path(app.request.attributes.get('_route'), app.request.query.all) }}">
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="query" />
             <button type="submit" class="search-submit"><svg class="search"><use xlink:href="#search"></use></svg></button>
-          </form>
+          </form> #}
 
           <h5 class="cat-list-title">Browse Categories</h5>
           

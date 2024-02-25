@@ -6,17 +6,23 @@
 <main id="main" class="main">
     <h1>Livraison index</h1>
 
+    <!-- Search Form -->
+    <form class="search-form" method="GET" action="{{ path('aff_livraison_index') }}">
+        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
+        <button type="submit">Search</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>DateLiv</th>
-                <th>AdresseLiv</th>
-                <th>Description</th>
-                <th>Etat</th>
-                <th>commande</th>
-                <th>Nom</th>
-                <th>matricule</th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'id', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Id</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'dateLiv', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">DateLiv</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'adresseLiv', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">AdresseLiv</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'description', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Description</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'etat', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Etat</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'reference', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Commande</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'Nom', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Nom</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'matricule', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Matricule</a></th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -32,7 +38,7 @@
                 <td>{{ livraison.Nom }}</td>
                 <td>{{ livraison.matricule }}</td>
                 <td>
-                    <a href="{{ path('aff_livraison_edit', {'id': livraison.id}) }}">affecter</a>
+                    <a href="{{ path('aff_livraison_edit', {'id': livraison.id}) }}"><button class="custom-button">Affecter</button></a>
                 </td>
             </tr>
         {% else %}

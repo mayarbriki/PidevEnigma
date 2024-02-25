@@ -6,15 +6,21 @@
 <main id="main" class="main">
     <h1>Transport index</h1>
 
+    <!-- Search Form -->
+    <form class="search-form" method="GET" action="{{ path('aff_transport_index1') }}">
+        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
+        <button type="submit">Search</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Marque</th>
-                <th>Matricule</th>
-                <th>Anneefab</th>
-                <th>Etat</th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'id', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Id</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'type', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Type</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'marque', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Marque</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'matricule', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Matricule</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'anneefab', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">AnnéeFab</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'etat', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Etat</a></th>
             </tr>
         </thead>
         <tbody>
@@ -34,5 +40,14 @@
         {% endfor %}
         </tbody>
     </table>
+
+            <nav class="app-pagination mt-5">
+            <ul class="pagination justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </ul>
+            </nav>
+
+        
+
  </main>
 {% endblock %}
