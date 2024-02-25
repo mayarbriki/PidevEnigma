@@ -63,6 +63,7 @@ class ProduitController extends AbstractController
 
 
   
+
    
     #[Route('/produit/add', name: 'add1')]
     public function add1(ManagerRegistry $doctrine,Request $request, SluggerInterface $slugger): Response
