@@ -4,12 +4,12 @@
 
 {% block body %}
 <main id="main" class="main">
-    <h1>Transport index</h1>
+    <h1>Notre moyen de Transport</h1>
 
     <!-- Search Form -->
     <form class="search-form" method="GET" action="{{ path('aff_transport_index1') }}">
-        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
-        <button type="submit">Search</button>
+        <input type="text" name="query" placeholder="Rechercher..." value="{{ app.request.query.get('query') }}">
+        <button type="submit"class="search-button"><i class="fas fa-search"></i></button>
     </form>
 
     <table class="table">
@@ -42,9 +42,9 @@
     </table>
 
             <nav class="app-pagination mt-5">
-            <ul class="pagination justify-content-center">
-                {{ knp_pagination_render(pagination) }}
-            </ul>
+                <ul class="pagination justify-content-center" class="pagination">
+                    {{ knp_pagination_render(transports) }}
+                </ul>
             </nav>
 
         

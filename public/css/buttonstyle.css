@@ -391,4 +391,21 @@
   .cssbuttons-io-button:active .icon {
     transform: scale(0.95);
   }
+  /******search*****/
+
+  .search-button {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+
+.search-button svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
   

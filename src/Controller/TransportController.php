@@ -47,7 +47,7 @@ class TransportController extends AbstractController
     }
 
     #[Route('/afficher_transport', name: 'aff_transport_index1', methods: ['GET'])]
-    public function index1(Request $request, TransportRepository $transportRepository, PaginatorInterface $paginator): Response
+    public function index1(Request $request, TransportRepository $transportRepository, PaginatorInterface $pg): Response
     {
         // Default sorting parameters
         $sortBy = $request->query->get('sort_by', 'id');
@@ -72,14 +72,16 @@ class TransportController extends AbstractController
         $pagination = $pg->paginate(
 
             $transportRepository->findAll(),
-            $request->query->get('page', 1),3); 
+            $request->query->get('page', 1),
+            2
+        );   
 
         return $this->render('transport/index1.html.twig', [
             'transports' => $transports,
             'searchResults' => $searchResults,
             'sortBy' => $sortBy,
             'order' => $order,
-            'pagination'=>$pagination
+            'transports'=>$pagination
         ]);
     }
 

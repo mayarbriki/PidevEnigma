@@ -4,12 +4,12 @@
 
 {% block body %}
 <main id="main" class="main">
-    <h1>Livraison index</h1>
+    <h1>Création des Livraisons</h1>
 
     <!-- Search Form -->
     <form class="search-form" method="GET" action="{{ path('app_livraison_index') }}">
-        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
-        <button type="submit">Search</button>
+        <input type="text" name="query" placeholder="Rechercher..." value="{{ app.request.query.get('query') }}">
+         <button type="submit"class="search-button"><i class="fas fa-search"></i></button>
     </form>
 
     <table class="table">
