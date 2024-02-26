@@ -39,6 +39,22 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function nom($searchQuery,$sort)
+    {
+        $query = $this->createQueryBuilder('p')
+        ->andWhere('p.nom LIKE :searchQuery')
+            ->setParameter('searchQuery', '%' . $searchQuery . '%');
+            if ($sort === 'asc') {
+                $query->orderBy('p.prix', 'ASC');
+            } elseif ($sort === 'desc') {
+            $query->orderBy('p.prix', 'DESC');
+            }
+            return $query->getQuery()->getResult();
+
+    }
+    
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */
