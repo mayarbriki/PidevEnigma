@@ -58,7 +58,8 @@ $query = $em->createQuery(
     GROUP BY u.email'
 );
 
-$ordersPerUser = $query->getResult();
+$ordersPerUser = $query->setMaxResults(10)->getResult();
+;
 
 $emails = [];
 $somme2 = [];
