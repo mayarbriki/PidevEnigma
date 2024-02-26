@@ -34,6 +34,7 @@
                 </thead>
                 <tbody>
                     {% for x in commandes %}
+                    {% if x.user == app.user %}
 
                     <tr>
                         <td>
@@ -61,8 +62,10 @@
                             <h1 style="color: red;">No data</h4>
                         </td>
                     </tr>
+                    {% endif %}
+                    {% else %}
+                    no commands for now
                     {% endfor %}
-
                 </tbody>
             </table>
         </div>

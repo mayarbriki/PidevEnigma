@@ -51,14 +51,31 @@ foreach ($totalProductsPerCategory as $row) {
     $somme[] = $row['somme'];
 }
 
- 
+$query = $em->createQuery(
+    'SELECT u.email AS emails, SUM(c.totale) AS sumtot
+    FROM App\Entity\User u
+    JOIN u.commandes c
+    GROUP BY u.email'
+);
+
+$ordersPerUser = $query->getResult();
+
+$emails = [];
+$somme2 = [];
+foreach ($ordersPerUser as $row) {
+    $emails[] = $row['emails'];
+    $somme2[] = $row['sumtot'];
+}
+
         return $this->render('back/index.html.twig', [
             'labels' => $months,
             'data' => $totals,
 
             'produit' => $produit,
             'somme' => $somme,
-
+            
+            'email' => $emails,
+            'somme2' => $somme2,
         ]);
     }
 }
