@@ -28,10 +28,16 @@ class Panier
     #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
     private ?Commande $commande = null;
 
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'pani')]
+    private Collection $commandes;
+
+   
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
-    }
+        $this->commandes = new ArrayCollection();
+     }
     public function getId(): ?int
     {
         return $this->id;
@@ -113,4 +119,39 @@ class Panier
     {
         return (string) $this->getId();
     }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setPani($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getPani() === $this) {
+                $commande->setPani(null);
+            }
+        }
+
+        return $this;
+    }
+
+  
+     
+
+    
 }

@@ -21,6 +21,17 @@ class TransportRepository extends ServiceEntityRepository
         parent::__construct($registry, Transport::class);
     }
 
+    // Example search method in TransportRepository
+    public function search($query)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.type LIKE :query OR t.marque LIKE :query OR t.matricule LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 //    /**
 //     * @return Transport[] Returns an array of Transport objects
 //     */

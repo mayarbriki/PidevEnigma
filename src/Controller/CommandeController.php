@@ -37,7 +37,7 @@ class CommandeController extends AbstractController
         }
 
         $c = new Commande;
-        $c->setPanier($panier);
+        $c->setPani($panier);
         $c->setTotale($total);
         $c->setUser($this->getUser());
         $c->setCreatedAt(new \DateTimeImmutable('now'));
@@ -56,6 +56,13 @@ class CommandeController extends AbstractController
         $em->persist($h);
         $em->flush();
 
+        foreach ($panier->getProduits() as $produit) {
+            $panier->removeProduit($produit);
+
+
+             $em->persist($panier);
+        }
+        $em->flush();
 
 
         return $this->redirectToRoute('app');

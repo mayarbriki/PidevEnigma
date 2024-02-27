@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livraison index{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+    <h1>Livraison index</h1>
+
+    <!-- Search Form -->
+    <form class="search-form" method="GET" action="{{ path('aff_livraison_index') }}">
+        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'id', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Id</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'dateLiv', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">DateLiv</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'adresseLiv', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">AdresseLiv</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'description', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Description</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'etat', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Etat</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'reference', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Commande</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'Nom', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Nom</a></th>
+                <th><a href="{{ path('aff_livraison_index', {'sort_by': 'matricule', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Matricule</a></th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livraison in livraisons %}
+            <tr>
+                <td>{{ livraison.id }}</td>
+                <td>{{ livraison.dateLiv ? livraison.dateLiv|date('Y-m-d') : '' }}</td>
+                <td>{{ livraison.adresseLiv }}</td>
+                <td>{{ livraison.description }}</td>
+                <td>{{ livraison.etat }}</td>
+                <td>{{ livraison.reference }}</td>
+                <td>{{ livraison.Nom }}</td>
+                <td>{{ livraison.matricule }}</td>
+                <td>
+                    <a href="{{ path('aff_livraison_edit', {'id': livraison.id}) }}"><button class="custom-button">Affecter</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

@@ -22,6 +22,7 @@ use App\Repository\CommandeProduitRepository;
 use App\Repository\UserRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -30,24 +31,28 @@ class ProduitController extends AbstractController
     
    
     #[Route('/produit', name: 'app')]
-    public function affiche1(ProduitRepository $pr, Request $request ,PaginatorInterface $pg): Response
+    public function affiche1(ProduitRepository $pr, Request $request ,PaginatorInterface $pg ,EntityManagerInterface $em): Response
     {
+//stats
 
-        $pagination = $pg->paginate(
+//filtrage et recherche
+        $searchQuery = $request->query->get('search');
+        $sort = $request->query->get('sort', 'asc');
+        $produitssss = $pr->nom($searchQuery,$sort);
+ $pagination = $pg->paginate(
 
-            $pr->findAll(),
+            $produitssss,
             $request->query->get('page', 1),
-            3
-        );    
-           if (!$this->isGranted('ROLE_ADMIN')) {
+            3 //element par page
+        );   
 
-        
-
-        return $this->render ('produit/affich.html.twig',[    'pagination'=>$pagination]);
-    }else{
-    return $this->render ('produit/back.html.twig',[  'pagination'=>$pagination]);
-}
-   
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render ('produit/back.html.twig',[   'pagination'=>$pagination]);
+        }
+ 
+        return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination]);
+     
+ 
        
     }
   /*  #[Route('/produit/afficherback', name: 'appback')]
@@ -62,7 +67,6 @@ class ProduitController extends AbstractController
 */
 
 
-  
 
    
     #[Route('/produit/add', name: 'add1')]
@@ -178,4 +182,8 @@ class ProduitController extends AbstractController
             'lowest_priced_product' => $lowestPricedProduct,
         ]);
     }
+    
+
+
+    
 }

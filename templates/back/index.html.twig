@@ -9,18 +9,26 @@
 <div class="container">
     <div class="row">
         <div class="card col-5">
-            courbe 1
+            <h4>Les flux entrant pour chaque mois</h4>
+            {% include "back/courbe1.html.twig" %}
         </div>
         <div class=" col-2"></div>
 
-        <div class="card col-5">courbe 2
-        </div>
         <div class="card col-5">
-            courbe 3
-        </div>
-        <div class=" col-2"></div>
+            <h4>Nombre des produits par catégory </h4>
 
-        <div class="card col-5">courbe 4
+
+            {% include "back/courbe2.html.twig" %}
+
+        </div>
+
+        <div class=" col-3"></div>
+
+        <div class="card col-5">
+            <h4>Top 10 clients en fonctions de ses totales des commandes acceptés </h4>
+
+            {% include "back/courbe3.html.twig" %}
+
         </div>
     </div>
 </div>

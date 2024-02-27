@@ -21,6 +21,19 @@ class LivraisonRepository extends ServiceEntityRepository
         parent::__construct($registry, Livraison::class);
     }
 
+    // Example search method in TransportRepository
+    public function search($query)
+    {
+        return $this->createQueryBuilder('l')
+                        ->leftJoin('l.matricule', 't')  // Assuming 'matricule' is the property name of the relationship with the Transport entity
+                        ->leftJoin('l.Nom', 'livreur')  // Assuming 'Nom' is the property name of the relationship with the Livreur entity
+                        ->andWhere('l.dateLiv LIKE :query')
+                        ->orWhere('t.matricule LIKE :query')  // Reference the 'matricule' attribute of the Transport entity
+                        ->orWhere('livreur.Nom LIKE :query')  // Reference the 'Nom' attribute of the Livreur entity
+                        ->setParameter('query', '%' . $query . '%')
+                        ->getQuery()
+                        ->getResult();
+                }
 //    /**
 //     * @return Livraison[] Returns an array of Livraison objects
 //     */

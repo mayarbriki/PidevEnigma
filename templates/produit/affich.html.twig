@@ -13,11 +13,58 @@
         <div class="row">
             <div class="display-header d-flex justify-content-between pb-3">
                 <h2 class="display-7 text-dark text-uppercase">Nos produits</h2>
+
                 <div class="btn-right">
                 </div>
             </div>
             <div class="swiper product-swiper">
+                <form action="" method="get">
+                    <div class="row">
+                        <div class="col-5"><input name="search" class="form-control" placeholder="Enter name of product"
+                                type="search"></div>
+                        <div class="col-2"><button class="btn btn-black" type="submit">Search
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-search" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                            </button></div>
+                        <div class="col-1"></div>
+                        <div class="col-2">
+                            Trier par <b> Prix </b> :
+                            <a href="{{ path('app', { 'search': app.request.query.get('search'), 'sort': 'desc' }) }}">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                    class="bi bi-sort-down" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
+                                </svg>
+                            </a>
+                            <a href="{{ path('app', { 'search': app.request.query.get('search'), 'sort': 'asc' }) }}">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                    class="bi bi-sort-down-alt" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5" />
+                                </svg>
+                            </a>
+
+                        </div>
+
+                    </div>
+                </form>
+
+                <br><br>
                 <div class="swiper-wrapper">
+                    <!--searchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-->
+
+
+
+                    <!-- end searchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-->
+
+
+
+
                     {% for a in pagination %}
                     <div class="swiper-slide">
                         <div class="product-card position-relative">

@@ -30,6 +30,9 @@ class Commande
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    private ?Panier $pani = null;
  
    
     
@@ -97,6 +100,18 @@ class Commande
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPani(): ?Panier
+    {
+        return $this->pani;
+    }
+
+    public function setPani(?Panier $pani): static
+    {
+        $this->pani = $pani;
 
         return $this;
     }
