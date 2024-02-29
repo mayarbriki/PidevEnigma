@@ -32,7 +32,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
             [
-                // No need for CsrfTokenBadge, Symfony handles CSRF protection automatically
+                
             ]
         );
     }

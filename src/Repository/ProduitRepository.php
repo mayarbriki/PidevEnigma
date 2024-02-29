@@ -42,16 +42,17 @@ class ProduitRepository extends ServiceEntityRepository
 
     public function nom($searchQuery,$sort)
     {
-        $query = $this->createQueryBuilder('p')
-        ->andWhere('p.nom LIKE :searchQuery')
-            ->setParameter('searchQuery', '%' . $searchQuery . '%');
-            if ($sort === 'asc') {
-                $query->orderBy('p.prix', 'ASC');
-            } elseif ($sort === 'desc') {
-            $query->orderBy('p.prix', 'DESC');
-            }
-            return $query->getQuery()->getResult();
-
+        $query = $this->createQueryBuilder('f')
+        ->join('f.client', 'c')
+        ->andWhere('c.email LIKE :searchQuery')
+        ->setParameter('searchQuery', '%' . $searchQuery . '%');
+    if ($sort === 'asc') {
+        $query->orderBy('f.totale', 'ASC');
+    } elseif ($sort === 'desc') {
+        $query->orderBy('f.totale', 'DESC');
+    }
+    
+    return $query->getQuery()->getResult();
     }
     
 

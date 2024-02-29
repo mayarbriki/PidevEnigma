@@ -38,6 +38,7 @@ class PanierController extends AbstractController
     #[Route('/panier/{id}', name: 'panier')]
     public function index(Produit $produit ,PanierRepository $repository , EntityManagerInterface $em , Request $request): Response
     {
+        //verfie si le user est connecté ou non
         if (!$this->getUser()) {
              return $this->redirectToRoute('app_login');  
         }
