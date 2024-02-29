@@ -1,0 +1,90 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}E-FIT!{% endblock %}
+
+{% block body %}
+ <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+<div class="panel-header panel-header-sm">
+            </div>
+            <div class="content">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                                                                                            
+
+                        <div class="card">
+                            <div class="card-header">
+
+                                <h4 class="card-title"> Simple Table</h4>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+
+                                    <table class="table">
+
+                                        <thead class=" text-primary">
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Libelle
+                                            </th>
+                                            
+                                        
+                                             <th class="text-right">
+                                              Delete
+                                            </th>
+                                             <th class="text-right">
+                                                Update
+                                            </th>
+                                        </thead>
+
+                                        <tbody>
+                                                      {% for i in Category %}
+
+                                            <tr>
+                                                <td>
+                                                    {{i.ID}}
+                                                </td>
+                                                <td>
+                                                   {{i.Libelle}}
+                                                </td>
+                                                
+                                                 <td>
+                                                    <a href="{{ path('delete2', {id:i.ID}) }}">Delete </a>
+                                                </td>
+                                                 <td>
+                                                    <a href="{{ path('update2', {id:i.ID}) }}">Update </a>
+                                                </td>
+                                            </tr>
+                                           {% endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                           
+                            
+                </div>
+            </div>
+            </section>
+
+  </main>
+
+{% endblock %}

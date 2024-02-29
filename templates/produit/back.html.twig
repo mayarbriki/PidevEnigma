@@ -1,0 +1,102 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}E-FIT!
+{% endblock %}
+
+{% block body %}
+
+	<!-- End Page Title -->
+
+
+	<div class="row">
+
+		<div class="col-md-12">
+
+
+			<div class="card">
+				<div class="card-header">
+
+					<h4 class="card-title">
+						Liste des produits</h4>
+				</div>
+				<div class="card-body">
+
+					<div class="table-responsive">
+
+						<table class="table">
+
+							<thead class=" text-primary">
+								<th>
+									ID
+								</th>
+								<th>
+									Nom
+								</th>
+								<th>
+									Description
+								</th>
+								<th>
+									Quantite
+								</th>
+								<th class="text-right">
+									Prix
+								</th>
+								<th class="text-right">
+									category
+								</th>
+								<th colspan="3" class="text-right">
+									Image
+								</th>
+
+
+							</thead>
+
+							<tbody>
+								{% for i in pagination %}
+
+									<tr>
+										<td>
+											{{i.ID}}
+										</td>
+										<td>
+											{{i.Nom}}
+										</td>
+										<td>
+											{{i.Description}}
+										</td>
+
+										<td>
+											{{i.quantite}}
+										</td>
+										<td>
+											{{i.Prix}}
+										</td>
+										<td>
+											{{i.Categorys}}
+										</td>
+
+										<td><img src="../uploads/produits/{{ i.Image }}" class="img-fluid" height="100" width="125"></td>
+
+										<td>
+											<a class="btn btn-secondary" href="{{ path('update', {id:i.ID}) }}">Update
+											</a>
+										</td>
+										<td>
+											<a class="btn btn-danger" href="{{ path('delete', {id:i.ID}) }}">Delete
+											</a>
+										</td>
+
+									</tr>
+									{% endfor%}</tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<a href="/produit/add" class="btn btn-success">Ajouter un produit<a/>
+			</div>
+
+
+		</div>
+	</div>
+</section></main>{% endblock %}

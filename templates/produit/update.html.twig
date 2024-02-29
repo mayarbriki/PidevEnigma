@@ -1,0 +1,36 @@
+{% extends 'base-back.html.twig' %}
+{% block title %}Produit
+{% endblock %}
+
+{% block body %}
+
+<div class="col-12 grid-margin stretch-card">
+	<div class="card">
+		<div class="card-body">
+
+
+			{{ form_start(Produit , {'attr': {'novalidate':'novalidate'}}
+			) }}
+			<form class="forms-sample">
+				<div class="form-group">
+					{{ form_row(Produit.nom, {'label':'nom' ,'attr':{'placeholder': 'Nom...', 'class':'form-control'}}) }}</div>
+				<div class="form-group">
+					{{ form_row(Produit.description, {'label':' description' ,'attr':{'placeholder': 'description...', 'class':'form-control'}}) }}</div>
+				<div class="form-group">
+					{{ form_row(Produit.quantite, {'label':' quantite' ,'attr':{'placeholder': 'quantite...', 'class':'form-control'}}) }}</div>
+				<div class="form-group">
+					{{ form_row(Produit.prix, {'label':'prix' ,'attr':{'placeholder': 'prix...', 'class':'form-control'}}) }}</div>
+				<div class="form-group">
+					{{ form_row(Produit.image, {'label':'image' ,'attr':{'placeholder': 'image...', 'class':'form-control'}}) }}</div>
+
+				<div class="form-group">
+					{{ form_row(Produit.Categorys, {'label':'Categorys' ,'attr':{'placeholder': 'Categorys...', 'class':'form-control'}}) }}
+				</div>
+				<br>
+
+				{{form_end(Produit)}}
+			</form>
+
+		</div>
+	</div>
+</div></section></main>{%endblock%}
