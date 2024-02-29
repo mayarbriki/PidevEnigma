@@ -1,0 +1,53 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Transport index{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+    <h1>Notre moyen de Transport</h1>
+
+    <!-- Search Form -->
+    <form class="search-form" method="GET" action="{{ path('aff_transport_index1') }}">
+        <input type="text" name="query" placeholder="Rechercher..." value="{{ app.request.query.get('query') }}">
+        <button type="submit"class="search-button"><i class="fas fa-search"></i></button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'id', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Id</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'type', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Type</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'marque', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Marque</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'matricule', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Matricule</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'anneefab', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">AnnéeFab</a></th>
+                <th><a href="{{ path('aff_transport_index1', {'sort_by': 'etat', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Etat</a></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transport in transports %}
+            <tr>
+                <td>{{ transport.id }}</td>
+                <td>{{ transport.type }}</td>
+                <td>{{ transport.marque }}</td>
+                <td>{{ transport.matricule }}</td>
+                <td>{{ transport.anneefab ? transport.anneefab|date('Y-m-d') : '' }}</td>
+                <td>{{ transport.etat }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+            <nav class="app-pagination mt-5">
+                <ul class="pagination justify-content-center" class="pagination">
+                    {{ knp_pagination_render(transports) }}
+                </ul>
+            </nav>
+
+        
+
+ </main>
+{% endblock %}

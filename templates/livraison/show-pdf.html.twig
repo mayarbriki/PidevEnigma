@@ -1,0 +1,46 @@
+
+
+{% block title %}Livraison{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+    <h1>Livraison</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ livraison.id }}</td>
+            </tr>
+            <tr>
+                <th>DateLiv</th>
+                <td>{{ livraison.dateLiv ? livraison.dateLiv|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>AdresseLiv</th>
+                <td>{{ livraison.adresseLiv }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ livraison.description }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ livraison.etat }}</td>
+            </tr>
+            <tr>
+                <th>commande</th>
+                <td>{{ livraison.reference }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ livraison.Nom }}</td>
+            </tr>
+            <tr>
+                <th>matricule</th>
+                <td>{{ livraison.matricule }}</td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+{% endblock %}

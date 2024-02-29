@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Livreur{% endblock %}
+
+{% block body %}
+<main id="main" class="main">
+    <h1>Create new Livreur</h1>
+
+    {{ include('livreur/_form.html.twig') }}
+
+    <a href="{{ path('app_livreur_index') }}" class="btn btn-primary">back to list</a>
+</main>
+{% endblock %}
