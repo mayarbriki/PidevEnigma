@@ -1,0 +1,37 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stock Details{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 100px;   display: flex; flex-direction: column; align-items: center;">
+        <h1>Stock Details</h1>
+        <table border="2" cellpadding="10" cellspacing="10">
+            <tr>
+                <th>Nom Produit:</th>
+                <td>{{ stock.nomProduit }}</td>
+            </tr>
+            <tr>
+                <th>Quantité Entrée:</th>
+                <td>{{ stock.quantiteEntre }}</td>
+            </tr>
+            <tr>
+                <th>Quantité Sortie:</th>
+                <td>{{ stock.quantiteSortie }}</td>
+            </tr>
+            <tr>
+                <th>Quantité Restante:</th>
+                <td>{{ stock.quantiteRestante }}</td>
+            </tr>
+            <tr>
+                <th>Date:</th>
+                <td>{{ stock.date ? stock.date|date('Y-m-d') : 'N/A' }}</td>
+            </tr>
+            <tr>
+                <th>Fournisseur:</th>
+                <td>{{ stock.fournisseur ? stock.fournisseur.getNom() : 'N/A' }}</td>
+            </tr>
+        </table>
+        <br>
+        <a href="{{ path('stock_new') }}">Back to list</a>
+    </div>
+{% endblock %}

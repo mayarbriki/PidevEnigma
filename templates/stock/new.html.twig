@@ -1,0 +1,26 @@
+{# templates/stock/new.html.twig #}
+
+
+
+{% block title %}New Stock{% endblock %}
+
+{% block body %}
+    <h1>Create a new Stock</h1>
+
+    {{ form_start(form) }}
+
+{{ form_row(form.nom_produit) }}
+
+
+    {{ form_row(form.quantite_entre) }} 
+
+    {{ form_row(form.quantite_sortie) }}
+    {{ form_row(form.quantite_restante) }}
+    {{ form_row(form.date) }}
+    {{ form_label(form.fournisseur) }}
+    {{ form_widget(form.fournisseur) }}
+            <button class="btn btn-primary">ajouter</button>
+
+    {{ form_end(form) }}
+    <a href="{{ path('stock_new') }}">Back to the list</a>
+{% endblock %}

@@ -15,7 +15,7 @@ class Stock
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nom_produit = null;
+    private ?string $nomProduit = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $quantite_entre = null;
@@ -30,7 +30,7 @@ class Stock
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]
-    private ?Fournisseur $Fournisseur = null;
+    private ?Fournisseur $fournisseur = null;
 
     public function getId(): ?int
     {
@@ -39,22 +39,22 @@ class Stock
 
     public function getNomProduit(): ?string
     {
-        return $this->nom_produit;
+        return $this->nomProduit;
     }
-
-    public function setNomProduit(?string $nom_produit): static
+    
+    public function setNomProduit(?string $nomProduit): self
     {
-        $this->nom_produit = $nom_produit;
-
+        $this->nomProduit = $nomProduit;
+    
         return $this;
     }
-
+    
     public function getQuantiteEntre(): ?int
     {
         return $this->quantite_entre;
     }
 
-    public function setQuantiteEntre(?int $quantite_entre): static
+    public function setQuantiteEntre(?int $quantite_entre): self
     {
         $this->quantite_entre = $quantite_entre;
 
@@ -66,7 +66,7 @@ class Stock
         return $this->quantite_sortie;
     }
 
-    public function setQuantiteSortie(?int $quantite_sortie): static
+    public function setQuantiteSortie(?int $quantite_sortie): self
     {
         $this->quantite_sortie = $quantite_sortie;
 
@@ -78,7 +78,7 @@ class Stock
         return $this->quantite_restante;
     }
 
-    public function setQuantiteRestante(?int $quantite_restante): static
+    public function setQuantiteRestante(?int $quantite_restante): self
     {
         $this->quantite_restante = $quantite_restante;
 
@@ -90,7 +90,7 @@ class Stock
         return $this->date;
     }
 
-    public function setDate(?\DateTimeInterface $date): static
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -99,13 +99,14 @@ class Stock
 
     public function getFournisseur(): ?Fournisseur
     {
-        return $this->Fournisseur;
+        return $this->fournisseur;
     }
 
-    public function setFournisseur(?Fournisseur $Fournisseur): static
+    public function setFournisseur(?Fournisseur $fournisseur): self
     {
-        $this->Fournisseur = $Fournisseur;
+        $this->fournisseur = $fournisseur;
 
         return $this;
     }
+
 }
