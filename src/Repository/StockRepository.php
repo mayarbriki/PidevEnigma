@@ -45,4 +45,23 @@ class StockRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+// StockRepository.php
+public function orderByNom(): array
+{
+    return $this->createQueryBuilder('s')
+
+    ->orderBy('s.nomProduit', 'ASC')
+        ->getQuery()
+        ->getResult();
 }
+
+
+public function findAdmin($nomProduit){
+    return $this->createQueryBuilder('stock')
+    ->where('stock.nomProduit LIKE :nomProduit')
+    ->setParameter('nomProduit', '%'.$nomProduit.'%')
+       ->getQuery()
+       ->getResult();
+}
+}
+

@@ -22,7 +22,8 @@ class StockController extends AbstractController
         $stock = new Stock();
         $form = $this->createForm(StockType::class, $stock);
         $form->handleRequest($request);
-
+        $requestString = $request->get('searchValue');
+        $stockSearch = $stockRepository->findAdmin($requestString);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($stock);
             $entityManager->flush();
@@ -32,6 +33,8 @@ class StockController extends AbstractController
 
         return $this->renderForm('stock/index.html.twig', [
             'stock' => $stock,
+            "stockSearch" => $stockSearch,
+
             'form' => $form, 
             'stocks' => $stockRepository->findAll()
         ]);
@@ -75,4 +78,32 @@ class StockController extends AbstractController
         return $this->redirectToRoute('stock_new', [], Response::HTTP_SEE_OTHER);
     }
 
-}
+    #[Route('/new/ASC', name: 'ASC', methods: ['GET'])]
+    public function ASC( Request $request, EntityManagerInterface $entityManager,StockRepository $stockRepository): Response
+    {
+        $stock = new Stock();
+        $form = $this->createForm(StockType::class, $stock);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($stock);
+            $entityManager->flush();
+
+        
+        }
+
+        return $this->renderForm('stock/index.html.twig', [
+            'stock' => $stock,
+            'form' => $form, 
+            'stocks' => $stockRepository->orderByNom()
+        ]);
+       
+        
+    }
+   
+        
+
+    
+       }
+
+
