@@ -46,7 +46,10 @@ class ProduitController extends AbstractController
             3 //element par page
         );   
 
- 
+        if ($this->isGranted("ROLE_ADMIN")) {
+
+        return $this->render ('produit/back.html.twig',[   'pagination'=>$pagination]);
+        }
         return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination]);
      
  

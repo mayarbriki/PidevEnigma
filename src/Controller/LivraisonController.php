@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Form\Livraison1Type;
 use App\Form\Livraison2Type;
@@ -79,14 +80,16 @@ class LivraisonController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_livraison_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_livraison_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, Commande $commade,EntityManagerInterface $entityManager): Response
     {
         $livraison = new Livraison();
         $form = $this->createForm(Livraison1Type::class, $livraison);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $livraison->setReference($commade);
+            $livraison->setDateLiv(new \DateTime('now'));
             $entityManager->persist($livraison);
             $entityManager->flush();
 

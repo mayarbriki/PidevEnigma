@@ -83,7 +83,7 @@ class CommandeController extends AbstractController
 
             $cr->findAll(),
             $request->query->get('page', 1),
-            2
+            5
         );  
 
 

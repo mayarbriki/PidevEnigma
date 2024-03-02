@@ -1,233 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+		<title>Dashboard</title>
+		<meta content="" name="description">
+		<meta
+		content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+		<!-- Favicons -->
+		<link href="assets/img/favicon.png" rel="icon">
+		<link
+		href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
-  {% block css%}
-  <!-- Vendor CSS Files -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-...your-sha512-hash-here..." crossorigin="anonymous" />
-  <link rel="stylesheet" type="text/css" href="{{asset('css/buttonstyle.css')}}">
-  <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
-  <link href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+		<!-- Google Fonts -->
+		<link href="https://fonts.gstatic.com" rel="preconnect">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+		{% block css%}
+			<!-- Vendor CSS Files -->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-...your-sha512-hash-here..." crossorigin="anonymous"/>
+			<link rel="stylesheet" type="text/css" href="{{asset('css/buttonstyle.css')}}">
+			<link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+			<link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+			<link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+			<link href="{{asset('assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
+			<link href="{{asset('assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
+			<link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
+			<link
+			href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
-  {% endblock %}
-  <!-- =======================================================
-																																																																		  * Template Name: NiceAdmin
-																																																																		  * Updated: Jan 29 2024 with Bootstrap v5.3.2
-																																																																		  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-																																																																		  * Author: BootstrapMade.com
-																																																																		  * License: https://bootstrapmade.com/license/
-																																																																		  ======================================================== -->
-</head>
+			<!-- Template Main CSS File -->
+			<link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+		{% endblock %}
+		<!-- =======================================================
+																																																																																				  * Template Name: NiceAdmin
+																																																																																				  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+																																																																																				  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+																																																																																				  * Author: BootstrapMade.com
+																																																																																				  * License: https://bootstrapmade.com/license/
+																																																																																				  ======================================================== -->
+	</head>
 
-<body>
+	<body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+		<!-- ======= Header ======= -->
+		<header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/home" class="logo d-flex align-items-center">
-        <img src="{{ asset('images/main-logo.png') }}" class="logo">
-        <span class="d-none d-lg-block">Parapharma+</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
+			<div class="d-flex align-items-center justify-content-between">
+				<a href="/home" class="logo d-flex align-items-center">
+					<img src="{{ asset('images/main-logo.png') }}" class="logo">
+					<span class="d-none d-lg-block">Parapharma+</span>
+				</a>
+				<i class="bi bi-list toggle-sidebar-btn"></i>
+			</div>
+			<!-- End Logo -->
 
-    <div class="search-bar">
-      <a class="btn btn-secondary mr-3 ml-3" href="/">Consulter espace client</a>
-    </div>
-    <!-- End Search Bar -->
+			<div class="search-bar">
+				<a class="btn btn-secondary mr-3 ml-3" href="/">Consulter espace client</a>
+			</div>
+			<!-- End Search Bar -->
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+			<nav class="header-nav ms-auto">
+				<ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
-        <!-- End Search Icon-->
+					<li class="nav-item d-block d-lg-none">
+						<a class="nav-link nav-icon search-bar-toggle " href="#">
+							<i class="bi bi-search"></i>
+						</a>
+					</li>
+					<!-- End Search Icon-->
 
-        <!-- End Notification Icon -->
-
-
-        <!-- End Notification Dropdown Items -->
-
-        </li>
-        <!-- End Notification Nav -->
+				<!-- End Notification Icon -->
 
 
-        <!-- End Messages Nav -->
+					<!-- End Notification Dropdown Items -->
 
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.email}}</span>
-          </a>
-          <!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>{{app.user.name}}
-                {{app.user.prename}}</h6>
-              <span>{{app.user.email}}</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-          </ul>
-          <!-- End Profile Dropdown Items -->
-        </li>
-        <!-- End Profile Nav -->
-
-      </ul>
-    </nav>
-    <!-- End Icons Navigation -->
-</body>
-
-</html>
-</header><!-- End Header --><!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-
-  <ul class="sidebar-nav" id="sidebar-nav">
-
-    <li class="nav-item">
-      <a class="nav-link " href="/back-home">
-        <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
-      </a>
-    </li>
-    <li class="nav-heading">Pages
-    </li>
+				</li>
+				<!-- End Notification Nav -->
 
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="/produit">
-        <i class="bi bi-box-seam"></i>
-        <span>Gestion des Produits</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="/commande-admin">
-        <i class="bi bi-file-post"></i>
-        <span>Gestion des Commandes</span>
-      </a>
-    </li>
-    <li class="nav-heading">Users
-    </li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="/user">
-        <i class="bi bi-people"></i>
-        <span>Gestion des Utililsateurs</span>
-      </a>
-    </li>
-    <!-- End Blank Page Nav -->
-  </ul>
-</aside>
+				<!-- End Messages Nav -->
 
-<div class="">
-  <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
-    <br><br><br><br><br>
+				<li class="nav-item dropdown pe-3">
+
+					<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+						<img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+						<span class="d-none d-md-block dropdown-toggle ps-2">{{app.user.email}}</span>
+					</a>
+					<!-- End Profile Iamge Icon -->
+
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+						<li class="dropdown-header">
+							<h6>{{app.user.name}}
+								{{app.user.prename}}</h6>
+							<span>{{app.user.email}}</span>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+
+						<li>
+							<a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+								<i class="bi bi-person"></i>
+								<span>My Profile</span>
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+
+						<li>
+							<a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+								<i class="bi bi-gear"></i>
+								<span>Account Settings</span>
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+
+						<li>
+							<a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+								<i class="bi bi-question-circle"></i>
+								<span>Need Help?</span>
+							</a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+
+						<li>
+							<a class="dropdown-item d-flex align-items-center" href="#">
+								<i class="bi bi-box-arrow-right"></i>
+								<span>Sign Out</span>
+							</a>
+						</li>
+
+					</ul>
+					<!-- End Profile Dropdown Items -->
+				</li>
+				<!-- End Profile Nav -->
+
+			</ul>
+		</nav>
+		<!-- End Icons Navigation -->
+	</body>
+
+</html></header><!-- End Header --><!-- ======= Sidebar ======= --><aside id="sidebar" class="sidebar">
+
+<ul class="sidebar-nav" id="sidebar-nav">
+
+	<li class="nav-item">
+		<a class="nav-link " href="/back-home">
+			<i class="bi bi-grid"></i>
+			<span>Dashboard</span>
+		</a>
+	</li>
+	<li class="nav-heading">Pages
+	</li>
+
+	{% if   is_granted("ROLE_ADMIN")  %}
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="/produit">
+				<i class="bi bi-box-seam"></i>
+				<span>Gestion des Produits</span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="/commande-admin">
+				<i class="bi bi-file-post"></i>
+				<span>Gestion des Commandes</span>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="/livraison">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-check-fill" viewbox="0 0 16 16">
+					<path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+					<path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+				</svg>
+				<span>
+					Gestion des Livraison</span>
+			</a>
+		</li>
+		<li class="nav-heading">Users
+		</li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="/user">
+				<i class="bi bi-people"></i>
+				<span>Gestion des Utililsateurs</span>
+			</a>
+		</li>
+	{% else %}
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="/livraison">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-check-fill" viewbox="0 0 16 16">
+					<path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+					<path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+				</svg>
+				<span>
+					Gestion des Livraison</span>
+			</a>
+		</li>
+	{% endif %}
+	<!-- End Blank Page Nav -->
+</ul></aside><div class="">
+<section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+	<br><br><br><br><br>
 
 
-    <div class="row">
+	<div class="row">
 
-      <div class="col-3"></div>
-      <div class="col-9">{% block body%}{% endblock %}</div>
-    </div>
+		<div class="col-3"></div>
+		<div class="col-9"> {% block body%}{% endblock %}
+			</div>
+		</div>
 
-  </section>
+	</section>
 </div>
 
 
 {% block footer%}
-<footer id="footer" class="footer">
-  <div class="copyright">&copy; Copyright<strong>
-      <span>NiceAdmin</span>
-    </strong>. All Rights Reserved</div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by
-    <a href="https://bootstrapmade.com/"> BootstrapMade</a>
-  </div>
-</footer><!-- End Footer --><a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-  <i class="bi bi-arrow-up-short"></i>
-</a>{% endblock %}{% block js%}<!-- Vendor JS Files -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<footer id="footer" class="footer">
+		<div class="copyright">&copy; Copyright<strong>
+				<span>NiceAdmin</span>
+			</strong>. All Rights Reserved</div>
+		<div class="credits">
+			<!-- All the links in the footer should remain intact. -->
+			<!-- You can delete the links only if you purchased the pro version. -->
+			<!-- Licensing information: https://bootstrapmade.com/license/ -->
+			<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+			Designed by
+				<a href="https://bootstrapmade.com/"> BootstrapMade</a>
+		</div>
+	</footer><!-- End Footer --><a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+		<i class="bi bi-arrow-up-short"></i>
+	</a>
+{% endblock %}
+{% block js%}
+	<!-- Vendor JS Files -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('assets/vendor/chart.js/chart.umd.js')}}"></script>
-<script src="{{asset('assets/vendor/echarts/echarts.min.js')}}"></script>
-<script src="{{asset('assets/vendor/quill/quill.min.js')}}"></script>
-<script src="{{asset('assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
-<script src="{{asset('assets/vendor/tinymce/tinymce.min.js')}}"></script>
-<script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script><!-- Template Main JS File -->
-<script src="{{asset('assets/js/main.js')}}"></script>{% endblock %}</body>
-
-</html>
+	<script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/chart.js/chart.umd.js')}}"></script>
+	<script src="{{asset('assets/vendor/echarts/echarts.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/quill/quill.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
+	<script src="{{asset('assets/vendor/tinymce/tinymce.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
+	<!-- Template Main JS File -->
+	<script src="{{asset('assets/js/main.js')}}"></script>
+{% endblock %}</body></html>

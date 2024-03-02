@@ -74,10 +74,14 @@ class User implements  UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Historique::class, mappedBy: 'user')]
     private Collection $historiques;
 
+    #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'livreur', orphanRemoval: true)]
+    private Collection $livraisons;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
         $this->historiques = new ArrayCollection();
+        $this->livraisons = new ArrayCollection();
     }
 
      
@@ -288,6 +292,36 @@ class User implements  UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($historique->getUser() === $this) {
                 $historique->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Livraison>
+     */
+    public function getLivraisons(): Collection
+    {
+        return $this->livraisons;
+    }
+
+    public function addLivraison(Livraison $livraison): static
+    {
+        if (!$this->livraisons->contains($livraison)) {
+            $this->livraisons->add($livraison);
+            $livraison->setLivreur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivraison(Livraison $livraison): static
+    {
+        if ($this->livraisons->removeElement($livraison)) {
+            // set the owning side to null (unless already changed)
+            if ($livraison->getLivreur() === $this) {
+                $livraison->setLivreur(null);
             }
         }
 

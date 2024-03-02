@@ -14,7 +14,9 @@ class BackController extends AbstractController
     #[Route('/back-home', name: 'app_back')]
     public function index(EntityManagerInterface $em ,): Response
     {
-
+            if ($this->isGranted("ROLE_LIVREUR")) {
+            return $this->render('back/index_livreur.html.twig');
+                }
 
         $month_query = $em->createQueryBuilder();
         $month_query->select('p.createdAt as createdAt', 'SUM(p.totale) as total')
@@ -42,6 +44,15 @@ $query = $em->createQuery(
     GROUP BY c.libelle'
 );
 
+
+/////////////////////////////
+
+$query = $em->createQuery(
+    'SELECT c.libelle AS categoryName, count(p.id) AS somme
+    FROM App\Entity\Produit p
+    JOIN p.Categorys c
+    GROUP BY c.libelle'
+);
 $totalProductsPerCategory = $query->getResult();
 
 $produit = [];
@@ -79,4 +90,14 @@ foreach ($ordersPerUser as $row) {
             'somme2' => $somme2,
         ]);
     }
+
+
+
+
+
+
+
+
+
+
 }
