@@ -42,6 +42,9 @@ class Produit
     #[ORM\ManyToMany(targetEntity: Panier::class, inversedBy: 'produits')]
     private Collection $panier;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $rate = null;
+
     public function __construct()
     {
         $this->panier = new ArrayCollection();
@@ -151,6 +154,18 @@ class Produit
     public function removePanier(Panier $panier): static
     {
         $this->panier->removeElement($panier);
+
+        return $this;
+    }
+
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?int $rate): static
+    {
+        $this->rate = $rate;
 
         return $this;
     }

@@ -55,6 +55,49 @@ class ProduitController extends AbstractController
  
        
     }
+
+
+    #[Route('/produit/details/{id}', name: 'app_produit_details')]
+    public function details(Produit $prod , Request $request,EntityManagerInterface $em): Response
+    {
+
+       
+    
+     
+
+        if ( $request->query->get('rating')) {
+            $rating = $request->query->get('rating');
+
+            $prod->setRate($rating);
+            $em->persist($prod);
+            $em->flush();
+         }
+       
+
+
+         $productId = $prod->getId();
+
+         $qb = $em->createQueryBuilder();
+         $qb->select('AVG(p.rate) as average_rating')
+            ->from('App\Entity\Produit', 'p')
+            ->where('p.id = :productId')
+            ->setParameter('productId', $productId);
+     
+         $query = $qb->getQuery();
+         $avg = $query->getSingleScalarResult();
+        if ($this->isGranted("ROLE_ADMIN")) {
+
+            return $this->render ('produit/back.html.twig',[   'a'=>$prod]);
+            }
+ 
+       return $this->render('produit/show-client.html.twig',[
+           'a'=>$prod,
+           'avg'=>$avg
+       ]);
+ 
+ 
+   }
+
   /*  #[Route('/produit/afficherback', name: 'appback')]
     public function afficheback(ManagerRegistry $em): Response
     {

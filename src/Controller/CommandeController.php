@@ -12,14 +12,14 @@ use App\Entity\Panier;
  use App\Repository\CommandeRepository;
  use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
- use Symfony\Bridge\Twig\Mime\TemplatedEmail;
- use Symfony\Component\HttpFoundation\Request;
+  use Symfony\Component\HttpFoundation\Request;
  
- 
-use Symfony\Component\Mailer\MailerInterface;
+  use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+
+ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Mime\TemplatedEmail;
  
  
 
@@ -101,26 +101,22 @@ class CommandeController extends AbstractController
     #[Route('/c/accepte/{id}', name: 'app_commande_accepte')]
     public function accepte(Commande $c ,MailerInterface $mailer ,EntityManagerInterface $em): Response
     {
-      /*  // $email_user = $user->getUserIdentifier();
-        $email = (new TemplatedEmail())
-        ->from(new Address('admin@security-demo.com', 'Security'))
-        //$c->getPani()->getUser()->getUserIdentifier()
-        ->to("mayar@briki.com")
-        ->subject('salutation')
-        ->htmlTemplate('email/email.html.twig')
-        ->context([])
-    ;
-
-    $mailer->send($email);
-    return new Response('Email sent!');
-*/
+        // $email_user = $user->getUserIdentifier();
         $email = (new Email())
-            ->from('your_email@example.com')
-            ->to('recipient@example.com')
-            ->subject('Hello from Symfony!')
-            ->text('This is a test email sent from Symfony.');
-
+        ->from(new Address('mayar@Parapharmacy', 'ADMIN'))
+        //$c->getPani()->getUser()->getUserIdentifier()
+        ->to( $c->getUser()->getUserIdentifier())
+        ->subject('salutation')
+        ->subject('Order Confirmation')
+        ->html('<p>Thank you for your order! We have received it and will process it shortly.</p>');
+        //->htmlTemplate('email/email.html.twig')
+        //-//>context([])
+    ;       
+    try {
         $mailer->send($email);
+    } catch (TransportExceptionInterface $e) {
+       
+    }
          $c->setSent(true);
         $em->persist($c);
         $em->flush();

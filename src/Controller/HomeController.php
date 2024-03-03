@@ -16,20 +16,29 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-    #[Route('/send', name: 'app_home')]
+    #[Route('/send', name: 'app_home_send')]
     public function send(MailerInterface $mailer): Response
     {
-         $email = (new Email())
-        ->from('your_email@example.com')
-        ->to('recipient@example.com')
-        ->subject('Hello from Symfony!')
-        ->text('This is a test email sent from Symfony.');
-
-    $mailer->send($email);
-
-    return $this->render('email/email.html.twig'  ,[
-        "email"=>$email
-    ] );
+        $sender = 'your_email@example.com';
+        $recipient = 'recipient@example.com';
+        $subject = 'Hello from Symfony!';
+        $body = 'This is a test email sent from Symfony.';
+    
+        $email = (new Email())
+            ->from($sender)
+            ->to($recipient)
+            ->subject($subject)
+            ->text($body);
+    
+        $mailer->send($email);
+    
+        return $this->render('email/email.html.twig', [
+            'sender' => $sender,
+            'recipient' => $recipient,
+            'subject' => $subject,
+            'body' => $body,
+        ]);
+    
 }
     
 }
