@@ -69,8 +69,10 @@
                     <div class="swiper-slide">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <img style="border-radius: 30px;" src="{{asset('/uploads/produits/'~a.Image)}}"
-                                    width="100%" height="150px" alt="product-item" class="">
+                                <a href="/produit/details/{{a.id}}">
+                                    <img style="border-radius: 30px;" src="{{asset('/uploads/produits/'~a.Image)}}"
+                                        width="100%" height="150px" alt="product-item" class="">
+                                </a>
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">

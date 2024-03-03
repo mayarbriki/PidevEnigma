@@ -36,6 +36,13 @@ class Livraison
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'livraisons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $livreur = null;
+
+    #[ORM\Column( nullable: true)]
+    private ?bool $sent = null;
+
 
     public function getId(): ?int
     {
@@ -124,6 +131,30 @@ class Livraison
     public function setEtat(?string $etat): static
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getLivreur(): ?User
+    {
+        return $this->livreur;
+    }
+
+    public function setLivreur(?User $livreur): static
+    {
+        $this->livreur = $livreur;
+
+        return $this;
+    }
+
+    public function isSent(): ?bool
+    {
+        return $this->sent;
+    }
+
+    public function setSent(bool $sent): static
+    {
+        $this->sent = $sent;
 
         return $this;
     }

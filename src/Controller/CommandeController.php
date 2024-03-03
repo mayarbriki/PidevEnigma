@@ -6,20 +6,22 @@ use App\Entity\Historique;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use App\Entity\user;
-use App\Entity\Commande;
+ 
+ use App\Entity\Commande;
 use App\Entity\Panier;
-use App\Entity\Produit;
-use App\Repository\CommandeRepository;
-use App\Repository\PanierRepository;
-use Doctrine\ORM\EntityManagerInterface;
+ use App\Repository\CommandeRepository;
+ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+  use Symfony\Component\HttpFoundation\Request;
+ 
+  use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+
+ use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\TemplatedEmail;
+ 
+ 
 
 class CommandeController extends AbstractController
 {
@@ -83,7 +85,7 @@ class CommandeController extends AbstractController
 
             $cr->findAll(),
             $request->query->get('page', 1),
-            2
+            5
         );  
 
 
@@ -92,10 +94,30 @@ class CommandeController extends AbstractController
             'commandes' => $pagination,
         ]);
     }
+    private $notifier;
+
+   
+    
     #[Route('/c/accepte/{id}', name: 'app_commande_accepte')]
-    public function accepte(Commande $c , EntityManagerInterface $em): Response
+    public function accepte(Commande $c ,MailerInterface $mailer ,EntityManagerInterface $em): Response
     {
-        $c->setSent(true);
+        // $email_user = $user->getUserIdentifier();
+        $email = (new Email())
+        ->from(new Address('mayar.briki@esprit.tn'))
+       
+        ->to( $c->getUser()->getUserIdentifier())
+        ->subject('salutation')
+        ->subject('Order Confirmation')
+        ->html('<p>Thank you for your order! We have received it and will process it shortly.</p>');
+        //->htmlTemplate('email/email.html.twig')
+        //-//>context([])
+    ;       
+    try {
+        $mailer->send($email);
+    } catch (TransportExceptionInterface $e) {
+       
+    }
+         $c->setSent(true);
         $em->persist($c);
         $em->flush();
 return $this->redirectToRoute('app_commande_admin');

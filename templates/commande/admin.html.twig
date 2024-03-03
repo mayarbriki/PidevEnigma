@@ -6,6 +6,12 @@
 
 {% block body %}
 
+<style>
+    th,
+    td {
+        text-align: center;
+    }
+</style>
 
 <div class="bg-light p-3">
     Mes commandes :
@@ -27,8 +33,11 @@
                     <th>
                         Envoyé le
                     </th>
-                    <th colspan="3">
+                    <th>
                         Traitement
+                    </th>
+                    <th>
+                        Livraison
                     </th>
 
                 </thead>
@@ -57,6 +66,14 @@
                             <span style="border-radius: 35px;" class="bg-success border p-2">
                                 Accepté</span>
                         </td>
+
+                        <td class="text-center"> <a class="btn btn-warning border" href="livraison/new/{{x.id}}">en
+                                attente <i class="bi bi-send"></i></a>
+                            <div class="spinner-grow spinner-grow-sm" role="status">
+                                <span class="visually-hidden ">Loading...</span>
+                            </div>
+                        </td>
+
                         {% elseif x.sent is null %}
                         <span style="border-radius: 35px;" class="bg-warning  p-2">En cours
                             </td>
@@ -68,7 +85,10 @@
                         </span>
                         {% else %}
                         <span style="border-radius: 35px;" class="bg-danger p-2">Réfusé </span>
-                        </td> <a href=""></a> {% endif %}
+                        </td> <a href=""></a>
+                        <td> - - -</td>
+                        {% endif %}
+
 
                     </tr>
                     {% else %}
@@ -78,6 +98,7 @@
                         </td>
                         </td>
                     </tr>
+
                     {% endfor %}
                     </td>
                     </tr>
@@ -95,6 +116,7 @@
         {{ knp_pagination_render(commandes) }}
     </ul>
 </nav>
-
+<pre>
+ </pre>
 
 {% endblock %}
