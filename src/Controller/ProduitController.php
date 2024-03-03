@@ -98,16 +98,33 @@ class ProduitController extends AbstractController
  
    }
 
-  /*  #[Route('/produit/afficherback', name: 'appback')]
-    public function afficheback(ManagerRegistry $em): Response
+    #[Route('/produit/save/{id}', name: 'save')]
+    public function save(EntityManagerInterface $em , Produit $produit): Response
     {
-        $repo=$em->getRepository(Produit::class);
-        $result=$repo->findAll();
-        return $this->render ('Produit/back.html.twig',['Produit'=>$result]);
+
+        $produit->setSaved(true);
+        $em->persist($produit);
+        $em->flush();
+
+
+         return $this->redirectToRoute('app');;
    
        
     }
-*/
+    #[Route('/produit/unsave/{id}', name: 'unsave')]
+    public function unsave(EntityManagerInterface $em , Produit $produit): Response
+    {
+
+        $produit->setSaved(false);
+        $em->persist($produit);
+        $em->flush();
+
+
+         return $this->redirectToRoute('app');;
+   
+       
+    }
+
 
 
 
