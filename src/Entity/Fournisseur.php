@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Entity;
 
 use App\Repository\FournisseurRepository;

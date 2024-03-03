@@ -7,22 +7,28 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;  
+
+
 
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+   #[Assert\Length(min: 10, minMessage: "Le titre doit contenir au moins {{ limit }} caractères.")]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    
     private ?\DateTimeInterface $dateR = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(min: 10, minMessage: "La description doit contenir au moins {{ limit }} caractères.")]
     private ?string $descriptionR = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -90,7 +96,7 @@ class Reclamation
     }
 
     /**
-     * @return Collection<int, Reponse>
+     * @return Collection<int, Reponse
      */
     public function getReponse(): Collection
     {
@@ -117,5 +123,10 @@ class Reclamation
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        // Return a string representation of the entity, such as its ID or any other relevant property
+        return (string) $this->getId();
     }
 }

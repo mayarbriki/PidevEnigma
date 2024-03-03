@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+<style>
+    .card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 40px;
+        max-width: 900px;
+        margin-left: 40px;
+    }
+
+    .card-title {
+        font-size: 30px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-text {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .card-footer {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-consultation {
+        display: inline-block;
+        padding: 15px 35px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #E5F3F4;
+        background-color: #048b9a;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        font-family: Microsoft, Sans Serif;
+        font-size: 17px;
+    }
+
+    .btn-consultation:hover {
+        background-color: #E5F3F4;
+        color: #048b9a;
+        box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3);
+    }
+
+    .btn-new {
+        display: inline-block;
+        padding: 15px 35px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #048b9a;
+        background-color: #E5F3F4;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        font-family: Microsoft, Sans Serif;
+        font-size: 17px;
+    }
+
+    .btn-new:hover {
+        background-color: #048b9a;
+        color: #f8f9fa;
+        box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3);
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-7 col-md-5 mx-auto">
+            <div class="card my-5">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Bienvenue!</h4>
+                    <p class="text-center">Que souhaitez-vous faire ?</p>
+                    <form action="{{ path('consultation_reclamation') }}" method="get" class="text-center">
+                        <div class="mb-3 d-flex align-items-center justify-content-center">
+                            <button type="submit" class="btn btn-consultation mr-3">Consulter la réclamation</button>
+                            <input type="text" class="form-control" id="reclamation_id" name="id" placeholder="Entrez l'ID de la réclamation à consulter">
+                        </div>
+                    </form>
+                    <a href="{{ path('app_Add') }}" class="btn btn-new mt-3 d-block mx-auto">Ajouter une nouvelle réclamation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

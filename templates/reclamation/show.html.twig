@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+   <style>
+    .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 40px;
+    max-width: 900px;
+    margin-left:150px;
+}
+
+.card-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-text {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    text-align: center;
+    margin-top : 50px;
+    
+
+}
+
+.card-footer .modif{
+    display: inline-block;
+    padding: 15px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #E5F3F4; /* Changer la couleur du texte en gris clair */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+    transition: color 0.3s;
+    font-family : Microsoft, Sans Serif;
+    font-size : 17px;
+}
+.card-footer .retour{
+    display: inline-block;
+    padding: 15px 35px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #048b9a; /* Changer la couleur du texte en gris clair */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+    transition: color 0.3s;
+    font-family : Microsoft, Sans Serif;
+    font-size : 17px;
+}
+
+.card-footer .retour {
+    background-color: #E5F3F4;
+}
+
+.card-footer .modif {
+    background-color: #048b9a;
+}
+
+.card-footer .modif:hover {
+    background-color: #E5F3F4; /* Changement de couleur au survol */
+    box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3); /* Ombre plus prononcée au survol */
+    color: #048b9a; /* Changement de couleur de texte au survol */
+}
+
+.card-footer .retour:hover{
+    background-color: #048b9a; /* Changement de couleur au survol */
+    box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3); /* Ombre plus prononcée au survol */
+    color: #f8f9fa; /* Changement de couleur de texte au survol */
+}
+.detail {
+    margin-bottom: 50px;
+}
+
+
+.detail .card-text {
+    font-size: 25px;
+    color: #5A7479;
+    font-family: Candara, sans-serif;
+}
+
+.detail .card-title {
+    font-size: 20px;
+    color: #192728;
+    font-family: Segoe UI, sans-serif;
+}
+.detail .contenu-font {
+    font-size: 16px; 
+}
+
+
+</style>
+
+<!-- Espace entre le titre et la phrase de remerciement -->
+<div style="height: 50px;"></div> <!-- 50px de hauteur pour l'espace -->
+
+<!-- Phrase de remerciement -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center ">
+            <h2 style="font-size: 40px; font-family: 'Palatino', serif; color: #333;">Merci pour votre réclamation!</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <!-- Titre "Détails de la Réclamation" -->
+    <h1 class="text-center mt-5 text-primary mb-4">Détails de la Réclamation</h1> <!-- Ajout de la classe mt-5 pour une marge top de 5 unités -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 mx-auto">
+            <div class="card" >
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                        <div class="detail">
+                                <h5 class="card-title">ID :</h5>
+                                <p class="card-text contenu-font">{{ reclamation.id }}</p>
+                            </div>
+                            <div class="detail">
+                                <h5 class="card-title">Titre :</h5>
+                                <p class="card-text contenu-font">{{ reclamation.titre }}</p>
+                            </div>
+                            <div class="detail">
+                                <h5 class="card-title">Description :</h5>
+                                <p class="card-text contenu-font">{{ reclamation.descriptionR }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div> <!-- Colonne vide -->
+                        <div class="col-md-2">
+                            <div class="detail text-right">
+                                <h5 class="card-title">Date :</h5>
+                                <p class="card-text contenu-font">{{ "now"|date("Y-m-d") }}</p>
+                            </div>
+                            <div class="detail text-right">
+                                <h5 class="card-title">Statut :</h5>
+                                <p class="card-text contenu-font">{{ reclamation.statusR }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <a href="{{ path('app_reclamation') }}" class="retour">Confirmer ma réclamation et Retourner </a>
+                    <span style="margin-right: 10px;"></span> <!-- Espace entre les boutons -->                    
+
+                    <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" class="modif">Modifier ma réclamation</a>
+                    <span style="margin-right: 10px;"></span> <!-- Espace entre les boutons -->                 
+                    {{ include('reclamation/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<!-- Espace en bas de la page -->
+<div style="height: 200px;"></div> <!-- 200px de hauteur pour l'espace en bas de la page -->
+
+
+{% endblock %}

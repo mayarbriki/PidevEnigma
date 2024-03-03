@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Réclamation{% endblock %}
+
+{% block body %}
+<style>
+   .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 40px;
+    max-width: 900px;
+    margin-left:150px;
+}
+
+.card-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-text {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+
+.modif{
+    display: inline-block;
+    padding: 15px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #E5F3F4; /* Changer la couleur du texte en gris clair */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+    transition: color 0.3s;
+    font-family : Microsoft, Sans Serif;
+    font-size : 17px;
+}
+ .retour{
+    display: inline-block;
+    padding: 15px 35px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #048b9a; /* Changer la couleur du texte en gris clair */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+    transition: color 0.3s;
+    font-family : Microsoft, Sans Serif;
+    font-size : 17px;
+}
+
+ .retour {
+    background-color: #E5F3F4;
+}
+
+ .modif {
+    background-color: #048b9a;
+}
+
+.modif:hover {
+    background-color: #E5F3F4; /* Changement de couleur au survol */
+    box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3); /* Ombre plus prononcée au survol */
+    color: #048b9a; /* Changement de couleur de texte au survol */
+}
+.retour:hover{
+    background-color: #048b9a; /* Changement de couleur au survol */
+    box-shadow: 0 6px 12px rgba(4, 139, 154, 0.3); /* Ombre plus prononcée au survol */
+    color: #f8f9fa; /* Changement de couleur de texte au survol */
+}
+
+.detail {
+    margin-bottom: 50px;
+}
+
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7 col-md-5 mx-auto">
+      <div class="card my-5">
+        <div class="card-body">
+          <h4 class="card-title text-center">Créer Votre Réclamation</h4>
+          <hr>
+          <form action="{{ path('submit_reclamation') }}" method="POST">
+            <div class="mb-3">
+              <label for="titre" class="form-label">Titre</label>
+              <input type="text" class="form-control" id="titre" name="titre" placeholder="Entrez le titre de votre réclamation">
+            </div>
+            <div class="mb-3">
+              <label for="descriptionR" class="form-label">Description</label>
+              <textarea class="form-control" id="descriptionR" name="descriptionR" rows="3" placeholder="Entrez la description de votre réclamation"></textarea>
+            </div>
+            <div class="text-center mt-4">
+              <button type="submit" class="modif">Soumettre</button>
+              <a class=" retour" href="{{ path('app_reclamation') }}"><i class="fas fa-arrow-left"></i> Retourner</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

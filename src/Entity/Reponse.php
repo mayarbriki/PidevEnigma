@@ -17,6 +17,7 @@ class Reponse
     private ?string $reponse = null;
 
     #[ORM\ManyToOne(inversedBy: 'reponse')]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
     private ?Reclamation $idrec = null;
 
     public function getId(): ?int

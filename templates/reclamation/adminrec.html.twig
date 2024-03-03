@@ -1,0 +1,78 @@
+{% extends 'base-back.html.twig' %}
+
+{% block body %}
+    <style>
+        /* Définition des couleurs */
+        .background-light-gray {
+            background-color: #E5F3F4;
+        }
+
+        .background-blue {
+            background-color: #048b9a;
+        }
+
+        /* Styles pour la table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #E5F3F4;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #048b9a;
+            color: #fff;
+        }
+
+        /* Styles pour les boutons */
+        .btn-info,
+        .btn-primary {
+            background-color: #048b9a;
+            border-color: #048b9a;
+        }
+
+        .btn-info:hover,
+        .btn-primary:hover {
+            background-color: #E5F3F4;
+            border-color: #E5F3F4;
+            color: #048b9a;
+        }
+    </style>
+
+    <h1 class="mb-4">Réclamations</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date de Remise</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.id }}</td>
+                    <td>{{ reclamation.titre }}</td>
+                    <td>{{ reclamation.descriptionR }}</td>
+                    <td>{{ reclamation.dateR ? reclamation.dateR|date('Y-m-d') : '' }}</td>
+                    <td>{{ reclamation.statusR }}</td>
+                    <td>
+                        <a href="{{ path('showadmin', {'id': reclamation.id}) }}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{{ path('app_reponse_new', {'id': reclamation.id}) }}" class="btn btn-primary btn-sm">Réponse</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if reclamations is empty %}
+            <p>Aucun enregistrement trouvé.</p>
+        {% endif %}
+    </div>
+{% endblock %}
