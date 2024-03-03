@@ -7,7 +7,7 @@
 <h1>Liste des Livraisons</h1>
 <div class="container">
     <!-- Search Form -->
-    {#<form class="search-form" method="GET" action="{{ path('app_livraison_index') }}">
+    {#<form class="search-form" method="GET" action="{{ path('app_liv') }}">
         <input type="text" name="query" placeholder="Rechercher..." value="{{ app.request.query.get('query') }}">
         <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
@@ -36,7 +36,8 @@
             <a href="#" onclick="selectAttribute('description')">Description</a>
             <a href="#" onclick="selectAttribute('etat')">Etat</a>
             <a href="#" onclick="selectAttribute('reference')">Commande</a>
-            <a href="#" onclick="selectAttribute('nom')">Nom</a>
+            <a href="#" onclick="selectAttribute('name')">Nom</a>
+            <a href="#" onclick="selectAttribute('matricule')">Matricule</a>
         </div>
         </div>
     </div>
@@ -48,9 +49,10 @@
     <option value="description">Description</option>
     <option value="etat">Etat</option>
     <option value="reference">Commande</option>
-    <option value="nom">Nom</option>
+    <option value="name">Nom</option>
+    <option value="matricule">Matricule</option>
     </select>
-    
+
     <table class="table" id="livraisonTable">
         <thead>
             <tr>
@@ -60,20 +62,29 @@
                 <th><a href="#" onclick="toggleSorting(3)">Description</a></th>
                 <th><a href="#" onclick="toggleSorting(4)">Etat</a></th>
                 <th><a href="#" onclick="toggleSorting(5)">Commande</a></th>
-                <th><a href="#" onclick="toggleSorting(6)">Nom</th>
+                <th><a href="#" onclick="toggleSorting(6)">Matricule</a></th>
+                <th><a href="#" onclick="toggleSorting(7)">Nom</a></th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
             {% for livraison in livraisons %}
             <tr>
-                <td data-attribute="id">{{ livraison.id }}</td>
-                <td data-attribute="dateLiv">{{ livraison.dateLiv ? livraison.dateLiv|date('Y-m-d') : '' }}</td>
-                <td data-attribute="adresseLiv">{{ livraison.adresseLiv }}</td>
-                <td data-attribute="description">{{ livraison.description }}</td>
-                <td data-attribute="etat">{{ livraison.etat }}</td>
-                <td data-attribute="reference">{{ livraison.reference }}</td> 
-                <td data-attribute="name">{{ livraison.livreur.getName() }}</td>
+            <td data-attribute="id">{{ livraison.id }}</td>
+            <td data-attribute="dateLiv">{{ livraison.dateLiv ? livraison.dateLiv|date('Y-m-d') : '' }}</td>
+            <td data-attribute="adresseLiv">{{ livraison.adresseLiv }}</td>
+            <td data-attribute="description">{{ livraison.description }}</td>
+            <td data-attribute="etat">{{ livraison.etat }}</td>
+            <td data-attribute="reference">{{ livraison.reference }}</td>
+            <td data-attribute="matricule">
+    {% if livraison.matricule is not null %}
+        {{ livraison.matricule }}
+    {% else %}
+        N/A <!-- or any other placeholder value you want to display -->
+    {% endif %}
+</td>
+            <td data-attribute="name">{{ livraison.livreur.getName() }}</td>
+
                 <td>
                     <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}">
                         <button class="cssbuttons-io-button">
@@ -88,7 +99,7 @@
                             </div>
                         </button>
                     </a>
-                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}">
+                    <a href="{{ path('aff_livraison_edit', {'id': livraison.id}) }}">
                         <button class="edit-button">
                             <svg class="edit-svgIcon" viewbox="0 0 512 512">
                                 <path
@@ -106,7 +117,6 @@
             {% endfor %}
         </tbody>
     </table>
-    {#<button id="sendSmsButton" class="btn btn-primary">Send SMS</button>#}
 
     <nav class="app-pagination mt-5">
                 <ul class="pagination justify-content-center" class="pagination">
@@ -116,7 +126,6 @@
 
 
 </div>
-
 
 <style>
 .input {
@@ -184,32 +193,31 @@
 </style>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
        var sortOrder = "asc";
 
     function searchTable() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("livraisonTable");
-        tr = table.getElementsByTagName("tr");
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("livraisonTable");
+    tr = table.getElementsByTagName("tr");
 
-        // Get the index of the selected attribute from the dropdown
-        var attributeIndex = document.getElementById("searchAttribute").selectedIndex;
+    // Get the value of the selected attribute from the dropdown
+    var attributeValue = document.getElementById("searchAttribute").value;
 
-        for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[attributeIndex];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].querySelector(`td[data-attribute="${attributeValue}"]`);
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
         }
     }
+}
 
     function toggleSorting(columnIndex) {
         var table, rows, switching, i, x, y, shouldSwitch;
@@ -266,26 +274,6 @@
     var button = document.querySelector(".paste-button .button");
     button.textContent = attribute /*+ " &nbsp; ▼"*/;
     }
-
-    $(document).ready(function() {
-        $('#sendSmsButton').click(function() {
-            $.ajax({
-                url: '{{ path('send_sms') }}', // Replace 'send_sms' with your route name
-                type: 'POST', // or 'GET', depending on your controller endpoint
-                dataType: 'json', // Assuming your controller returns JSON
-                success: function(response) {
-                    // Handle success response here
-                    console.log(response);
-                    alert('SMS sent successfully!');
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response here
-                    console.error(xhr.responseText);
-                    alert('Failed to send SMS.');
-                }
-            });
-        });
-    });
 
 
 </script>

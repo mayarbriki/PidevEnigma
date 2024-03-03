@@ -16,8 +16,9 @@ class Transport
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    private ?Livreur $Nom = null;
+    #[ORM\ManyToOne(inversedBy: 'transports')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $livreur = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Type ne peut pas être vide")]
@@ -49,7 +50,7 @@ class Transport
         return $this->id;
     }
 
-    public function getNom(): ?Livreur
+    /*public function getNom(): ?Livreur
     {
         return $this->Nom;
     }
@@ -59,7 +60,7 @@ class Transport
         $this->Nom = $Nom;
 
         return $this;
-    }
+    }*/
 
     public function getType(): ?string
     {
@@ -133,6 +134,18 @@ class Transport
     public function setEtat(?string $etat): static
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getLivreur(): ?User
+    {
+        return $this->livreur;
+    }
+
+    public function setLivreur(?User $livreur): static
+    {
+        $this->livreur = $livreur;
 
         return $this;
     }

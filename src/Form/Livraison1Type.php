@@ -40,7 +40,7 @@ class Livraison1Type extends AbstractType
             'class' => User::class,
             'label' => 'Choisissez un livreur',
             'choice_label' => function($user) {
-                return $user->getEmail() . ' - ' . $user->getAdress();
+                return $user->/*getEmail() . ' - ' . $user->getAdress();*/getName();
             },
             'query_builder' => function ($userRepository) {
                 return $userRepository->createQueryBuilder('u')

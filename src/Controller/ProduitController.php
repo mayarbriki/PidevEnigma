@@ -123,7 +123,7 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() )
         { $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('appback');
+            return $this->redirectToRoute('app');
         }
         return $this->renderForm("Produit/update.html.twig",
             ["Produit"=>$form]) ;
@@ -140,7 +140,7 @@ class ProduitController extends AbstractController
         $em = $doctrine->getManager();
         $em->remove($c);
         $em->flush() ;
-        return $this->redirectToRoute('appback');
+        return $this->redirectToRoute('app');
     }
     #[Route('/produit/statistics', name: 'product_statistics')]
     public function productStatistics(ManagerRegistry $doctrine): Response

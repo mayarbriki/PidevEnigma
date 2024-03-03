@@ -16,7 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class TransportController extends AbstractController
 {
     #[Route('/', name: 'app_transport_index', methods: ['GET'])]
-    public function index(Request $request, TransportRepository $transportRepository): Response
+    public function index(Request $request, TransportRepository $transportRepository, PaginatorInterface $pg): Response
     {
         // Default sorting parameters
         $sortBy = $request->query->get('sort_by', 'id');
@@ -37,12 +37,20 @@ class TransportController extends AbstractController
             $searchResults = [];
         }
 
+        $pagination = $pg->paginate(
+
+            $transportRepository->findAll(),
+            $request->query->get('page', 1),
+            3
+        );
+
 
         return $this->render('transport/index.html.twig', [
             'transports' => $transports,
             'searchResults' => $searchResults,
             'sortBy' => $sortBy,
             'order' => $order,
+            'transports'=>$pagination
         ]);
     }
 
@@ -73,7 +81,7 @@ class TransportController extends AbstractController
 
             $transportRepository->findAll(),
             $request->query->get('page', 1),
-            2
+            3
         );   
 
         return $this->render('transport/index1.html.twig', [
@@ -93,6 +101,8 @@ class TransportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transport->setLivreur($this->getUser());
+            
             $entityManager->persist($transport);
             $entityManager->flush();
 

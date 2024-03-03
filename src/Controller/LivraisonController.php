@@ -14,13 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Entity\Transport;
+use Knp\Component\Pager\PaginatorInterface;
+use Twilio\Rest\Client;
 
 
 #[Route('/livraison')]
 class LivraisonController extends AbstractController
 {
     #[Route('/', name: 'app_livraison_index', methods: ['GET'])]
-    public function index(Request $request, LivraisonRepository $livraisonRepository): Response
+    public function index(Request $request, LivraisonRepository $livraisonRepository, PaginatorInterface $pg): Response
     {
         // Default sorting parameters
         $sortBy = $request->query->get('sort_by', 'id');
@@ -41,11 +44,71 @@ class LivraisonController extends AbstractController
             $searchResults = [];
         }
 
+        $pagination = $pg->paginate(
+
+            $livraisonRepository->findAll(),
+            $request->query->get('page', 1),
+            2
+        );
+
         return $this->render('livraison/index.html.twig', [
             'livraisons' => $livraisons,
             'searchResults' => $searchResults,
             'sortBy' => $sortBy,
             'order' => $order,
+            'livraisons'=>$pagination
+        ]);
+    }
+
+    #[Route('/liv', name: 'app_liv', methods: ['GET'])]
+    public function index2(Request $request, LivraisonRepository $livraisonRepository, EntityManagerInterface $entityManager, PaginatorInterface $pg): Response
+    {
+        // Default sorting parameters
+        $sortBy = $request->query->get('sort_by', 'id');
+        $order = $request->query->get('order', 'ASC');
+
+        // Fetch livraisons from the repository with sorting
+        $livraisons = $livraisonRepository->findBy([], [$sortBy => $order]);
+        
+
+        $query = $request->query->get('query');
+
+        if ($query) {
+            // Perform search using repository method
+            $searchResults = $livraisonRepository->search($query);
+            // Overwrite livraisons with search results
+            $livraisons = $searchResults;
+        } else {
+            // If no search query, load default data for dashboard
+            $searchResults = [];
+        }
+
+        $user = $this->getUser();
+    
+    // Fetch the Transport associated with the current user (Livreur)
+    $transport = $entityManager->getRepository(Transport::class)->findOneBy(['livreur' => $user]);
+        
+    $livraison = new Livraison();
+
+    // Set the Livreur and Matricule based on the fetched Transport
+    if ($transport) {
+        $livraison->setLivreur($transport->getLivreur());
+        $livraison->setMatricule($transport);
+    }
+
+    $pagination = $pg->paginate(
+
+        $livraisonRepository->findAll(),
+        $request->query->get('page', 1),
+        3
+    );
+
+        return $this->render('livraison/index2.html.twig', [
+            'livraisons' => $livraisons,
+            'searchResults' => $searchResults,
+            'sortBy' => $sortBy,
+            'order' => $order,
+            'livraisons'=>$pagination
         ]);
     }
 
@@ -131,13 +194,29 @@ class LivraisonController extends AbstractController
     #[Route('/{id}/affecter', name: 'aff_livraison_edit', methods: ['GET', 'POST'])]
     public function edit1(Request $request, Livraison $livraison, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+    
+    // Fetch the Transport associated with the current user (Livreur)
+    $matricule = $entityManager->getRepository(Transport::class)->findOneBy(['livreur' => $user]);
+        
+    
+
+    // Set the Livreur and Matricule based on the fetched Transport
+    
+
         $form = $this->createForm(Livraison2Type::class, $livraison);
         $form->handleRequest($request);
 
+        
+
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($matricule) {
+                $livraison->setLivreur($matricule->getLivreur());
+                $livraison->setMatricule($matricule);
+            }
             $entityManager->flush();
 
-            return $this->redirectToRoute('aff_livraison_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_liv', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('livraison/edit1.html.twig', [
@@ -188,5 +267,30 @@ class LivraisonController extends AbstractController
         $response->headers->set('Content-Disposition', 'attachment; filename="livraison.pdf"');
 
         return $response;
+    }
+
+    #[Route('/send-sms', name: 'send_sms')]
+    public function sendSms(Client $twilioClient): Response
+    {
+        // Get the recipient's phone number and the message from your form or database
+        $recipientPhoneNumber = '+21641703090'; // Replace with the recipient's phone number
+        $message = 'Hello from Twilio!';
+
+        try {
+            // Send the SMS message using Twilio
+            $twilioClient->messages->create(
+                $recipientPhoneNumber,
+                [
+                    'from' => '%+21641703090%',
+                    'body' => $message,
+                ]
+            );
+
+            // Handle successful message delivery
+            return new Response('SMS sent successfully!');
+        } catch (\Exception $e) {
+            // Handle errors
+            return new Response('Error: ' . $e->getMessage());
+        }
     }
 }

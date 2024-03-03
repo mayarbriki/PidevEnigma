@@ -21,6 +21,20 @@ class LivraisonRepository extends ServiceEntityRepository
         parent::__construct($registry, Livraison::class);
     }
 
+    /**
+     * Fetches Livraisons along with their associated Transport entities.
+     *
+     * @return Livraison[] Returns an array of Livraison objects
+     */
+    public function findAllWithTransport(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.matricule', 't')
+            ->addSelect('t')
+            ->getQuery()
+            ->getResult();
+    }
+
     // Example search method in TransportRepository
     public function search($query)
     {

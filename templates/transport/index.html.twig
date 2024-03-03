@@ -1,40 +1,81 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Transport index{% endblock %}
 
 {% block body %}
-    <h1>Transport index</h1>
+<main {#id="main"#} class="main">
+    <div class="container">
+    <h1>Ajouter Des Moyens De Transports</h1>
 
     <!-- Search Form -->
-    <form class="search-form" method="GET" action="{{ path('app_transport_index') }}">
-        <input type="text" name="query" placeholder="Search..." value="{{ app.request.query.get('query') }}">
-        <button type="submit">Search</button>
-    </form>
+    <div style="margin-bottom: 10px;">
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Write here..." name="text" class="input">
+        <div class="paste-button" onmouseleave="hideDropdown()">
+        <button class="button" onmouseenter="showDropdown()">Choisir un attribut &nbsp; ▼</button>
+        <div class="dropdown-content" id="searchAttributeDropdown">
+            <a href="#" onclick="selectAttribute('id')">Id</a>
+            <a href="#" onclick="selectAttribute('Type')">Type</a>
+            <a href="#" onclick="selectAttribute('Marque')">Marque</a>
+            <a href="#" onclick="selectAttribute('Matricule')">Matricule</a>
+            <a href="#" onclick="selectAttribute('AnnéeFab')">AnnéeFab</a>
+            <a href="#" onclick="selectAttribute('Etat')">Etat</a>
+            <a href="#" onclick="selectAttribute('Nom')">Nom</a>
+        </div>
+        </div>
+    </div>
 
-    <table class="table">
+    <select id="searchAttribute" style="display: none;">
+    <option value="id">Id</option>
+    <option value="Type">Type</option>
+    <option value="Marque">Marque</option>
+    <option value="Matricule">Matricule</option>
+    <option value="AnnéeFab">AnnéeFab</option>
+    <option value="Etat">Etat</option>
+    <option value="Nom">Nom</option>
+    </select>
+
+    <table class="table" id="transportTable">
         <thead>
             <tr>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'id', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Id</a></th>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'type', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Type</a></th>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'marque', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Marque</a></th>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'matricule', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Matricule</a></th>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'anneefab', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">AnnéeFab</a></th>
-                <th><a href="{{ path('app_transport_index', {'sort_by': 'etat', 'order': order == 'ASC' ? 'DESC' : 'ASC' }) }}">Etat</a></th>
+                <th><a href="#" onclick"toggleSorting(0)">Type</a></th>
+                <th><a href="#" onclick"toggleSorting(1)">Id</a></th>
+                <th><a href="#" onclick"toggleSorting(2)">Marque</a></th>
+                <th><a href="#" onclick"toggleSorting(3)">Matricule</a></th>
+                <th><a href="#" onclick"toggleSorting(4)">AnnéeFab</a></th>
+                <th><a href="#" onclick"toggleSorting(5)">Etat</a></th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for transport in transports %}
             <tr>
-                <td>{{ transport.id }}</td>
-                <td>{{ transport.type }}</td>
-                <td>{{ transport.marque }}</td>
-                <td>{{ transport.matricule }}</td>
-                <td>{{ transport.anneefab ? transport.anneefab|date('Y-m-d') : '' }}</td>
-                <td>{{ transport.etat }}</td>
+                <td data-attribute="id">{{ transport.id }}</td>
+                <td data-attribute="Type">{{ transport.type }}</td>
+                <td data-attribute="Marque">{{ transport.marque }}</td>
+                <td data-attribute="Matricule">{{ transport.matricule }}</td>
+                <td data-attribute="AnnéeFab">{{ transport.anneefab ? transport.anneefab|date('Y-m-d') : '' }}</td>
+                <td data-attribute="Etat">{{ transport.etat }}</td>
                 <td>
-                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}">show</a>
-                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}">edit</a>
+                    <a href="{{ path('app_transport_show', {'id': transport.id}) }}"><button class="cssbuttons-io-button">
+                                Démontrer
+                                <div class="icon">
+                                    <svg
+                                    height="24" width="24"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                    <path
+                                        d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                                        fill="currentColor"
+                                    ></path>
+                                    </svg>
+                                </div>
+                                </button>
+                    </a>
+                    <a href="{{ path('app_transport_edit', {'id': transport.id}) }}"><button class="edit-button">
+                        <svg class="edit-svgIcon" viewBox="0 0 512 512">
+                         <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                         </svg>
+                        </button>
+                    </a>
                 </td>
             </tr>
         {% else %}
@@ -68,5 +109,168 @@
         </nav>
     {% endif %}#}
 
-    <a href="{{ path('app_transport_new') }}">Create new</a>
+     <a href="{{ path('app_transport_new') }}"><button class="Btn">
+  
+                <div class="sign">+</div>
+                <div class="text">Créer</div></button>
+    </a>
+        <nav class="app-pagination mt-5">
+                <ul class="pagination justify-content-center" class="pagination">
+                    {{ knp_pagination_render(transports) }}
+                </ul>
+            </nav>
+  </div>
+ </main>
+
+<style>
+.input {
+  border-radius: 10px;
+  outline: 2px solid #048B9A;
+  border: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #e2e2e2;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+}
+
+.input:focus {
+  outline-offset: 5px;
+  background-color: #fff
+}
+
+.paste-button {
+  position: relative;
+  display: inline-block;
+}
+
+.button {
+  background-color: #048B9A;
+  color: #ffffff;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  min-width: 200px;
+  background-color: #ffffff;
+  border: 2px solid #048B9A;
+  border-top: none;
+  border-radius: 0px 0px 15px 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: #048B9A;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  transition: 0.1s;
+}
+
+.dropdown-content a:hover {
+  background-color: #048B9A;
+  color: #ffffff;
+}
+
+.paste-button:hover .dropdown-content {
+  display: block;
+}
+
+</style>
+
+
+
+<script>
+       var sortOrder = "asc";
+
+    function searchTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("transportTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Get the value of the selected attribute from the dropdown
+    var attributeValue = document.getElementById("searchAttribute").value;
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].querySelector(`td[data-attribute="${attributeValue}"]`);
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+    function toggleSorting(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("transportTable");
+        switching = true;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                if (sortOrder === "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (sortOrder === "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        // Reverse the sorting order for the next click
+        sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    }
+
+    function showDropdown() {
+    var dropdownContent = document.getElementById("searchAttributeDropdown");
+    dropdownContent.style.display = "block";
+    }
+
+    function hideDropdown() {
+    var dropdownContent = document.getElementById("searchAttributeDropdown");
+    dropdownContent.style.display = "none";
+    }
+
+    function selectAttribute(attribute) {
+    document.getElementById("searchAttribute").value = attribute;
+    hideDropdown();
+    updateButtonText(attribute);
+    }
+
+    function updateButtonText(attribute) {
+    var button = document.querySelector(".paste-button .button");
+    button.textContent = attribute /*+ " &nbsp; ▼"*/;
+    }
+
+
+</script>
 {% endblock %}
