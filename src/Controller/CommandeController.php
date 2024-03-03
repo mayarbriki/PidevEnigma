@@ -6,20 +6,22 @@ use App\Entity\Historique;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use App\Entity\user;
-use App\Entity\Commande;
+ 
+ use App\Entity\Commande;
 use App\Entity\Panier;
-use App\Entity\Produit;
-use App\Repository\CommandeRepository;
-use App\Repository\PanierRepository;
-use Doctrine\ORM\EntityManagerInterface;
+ use App\Repository\CommandeRepository;
+ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+ use Symfony\Component\HttpFoundation\Request;
+ 
+ 
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Notifier\NotifierInterface;
+ 
+ 
 
 class CommandeController extends AbstractController
 {
@@ -92,10 +94,34 @@ class CommandeController extends AbstractController
             'commandes' => $pagination,
         ]);
     }
+    private $notifier;
+
+   
+    
     #[Route('/c/accepte/{id}', name: 'app_commande_accepte')]
-    public function accepte(Commande $c , EntityManagerInterface $em): Response
+    public function accepte(Commande $c ,MailerInterface $mailer ,EntityManagerInterface $em): Response
     {
-        $c->setSent(true);
+      /*  // $email_user = $user->getUserIdentifier();
+        $email = (new TemplatedEmail())
+        ->from(new Address('admin@security-demo.com', 'Security'))
+        //$c->getPani()->getUser()->getUserIdentifier()
+        ->to("mayar@briki.com")
+        ->subject('salutation')
+        ->htmlTemplate('email/email.html.twig')
+        ->context([])
+    ;
+
+    $mailer->send($email);
+    return new Response('Email sent!');
+*/
+        $email = (new Email())
+            ->from('your_email@example.com')
+            ->to('recipient@example.com')
+            ->subject('Hello from Symfony!')
+            ->text('This is a test email sent from Symfony.');
+
+        $mailer->send($email);
+         $c->setSent(true);
         $em->persist($c);
         $em->flush();
 return $this->redirectToRoute('app_commande_admin');
