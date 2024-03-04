@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StockRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StockRepository::class)]
 class Stock
@@ -15,6 +15,12 @@ class Stock
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 20,
+        minMessage: 'Your product name must be at least {{ limit }} characters long',
+        maxMessage: 'Your product name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $nomProduit = null;
 
     #[ORM\Column(nullable: true)]
@@ -26,7 +32,7 @@ class Stock
     #[ORM\Column(nullable: true)]
     private ?int $quantite_restante = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: "date", nullable: true)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'stocks')]

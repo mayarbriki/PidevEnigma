@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Fournisseur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType as DoctrineEntityType;
+use Symfony\Component\Validator\Constraints\Length; 
 
 class StockType extends AbstractType
 {
@@ -21,6 +22,15 @@ class StockType extends AbstractType
             ->add('nom_produit', TextType::class, [
                 'label' => 'Product Name',
                 'attr' => ['placeholder' => 'Enter the product name'], // Example: Adding a placeholder
+                'constraints' => [
+                  
+                    new Length([
+                        'min' => 1,
+                        'max' => 255,
+                        'minMessage' => 'Product name must be at least {{ limit }} character long',
+                        'maxMessage' => 'Product name cannot be longer than {{ limit }} characters',
+                    ]),
+                ],
             ])
             ->add('quantite_entre', IntegerType::class, [
                 'label' => 'Quantity In',
@@ -56,3 +66,6 @@ class StockType extends AbstractType
         ]);
     }
 }
+
+
+

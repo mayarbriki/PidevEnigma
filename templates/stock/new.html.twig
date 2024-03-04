@@ -5,22 +5,32 @@
 {% block title %}New Stock{% endblock %}
 
 {% block body %}
-    <h1>Create a new Stock</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Create a new Stock</h1>
 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
 
-{{ form_row(form.nom_produit) }}
+        {{ form_row(form.nom_produit) }}
+        {{ form_row(form.quantite_entre) }}
+        {{ form_row(form.quantite_sortie) }}
+        {{ form_row(form.quantite_restante) }}
+        {{ form_row(form.date) }}
 
+        {{ form_label(form.fournisseur) }}
+        {{ form_widget(form.fournisseur) }}
 
-    {{ form_row(form.quantite_entre) }} 
+        <div class="text-center">
+          <button class="btn btn-primary mt-3">Ajouter</button>
+        </div>
 
-    {{ form_row(form.quantite_sortie) }}
-    {{ form_row(form.quantite_restante) }}
-    {{ form_row(form.date) }}
-    {{ form_label(form.fournisseur) }}
-    {{ form_widget(form.fournisseur) }}
-            <button class="btn btn-primary">ajouter</button>
+        {{ form_end(form) }}
 
-    {{ form_end(form) }}
-    <a href="{{ path('stock_new') }}">Back to the list</a>
+        <p class="mt-3 text-center">
+          <a href="{{ path('stock_new') }}" class="btn btn-secondary">Back to the list</a>
+        </p>
+      </div>
+    </div>
+  </div>
 {% endblock %}

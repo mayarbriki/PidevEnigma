@@ -55,6 +55,14 @@ public function orderByNom(): array
         ->getResult();
 }
 
+// StockRepository.php
+
+public function findAllQuery()
+{
+    return $this->createQueryBuilder('s')
+        ->getQuery();
+}
+
 
 public function findAdmin($nomProduit){
     return $this->createQueryBuilder('stock')

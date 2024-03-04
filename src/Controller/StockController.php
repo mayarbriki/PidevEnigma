@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('/stock')]
 class StockController extends AbstractController
 {
@@ -77,32 +78,31 @@ class StockController extends AbstractController
 
         return $this->redirectToRoute('stock_new', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/new/{order}', name: 'ASC', methods: ['GET'])]
+public function ASC(Request $request, EntityManagerInterface $entityManager, StockRepository $stockRepository, string $order): Response
+{
+    $stock = new Stock();
+    $form = $this->createForm(StockType::class, $stock);
+    $form->handleRequest($request);
 
-    #[Route('/new/ASC', name: 'ASC', methods: ['GET'])]
-    public function ASC( Request $request, EntityManagerInterface $entityManager,StockRepository $stockRepository): Response
-    {
-        $stock = new Stock();
-        $form = $this->createForm(StockType::class, $stock);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($stock);
-            $entityManager->flush();
-
-        
-        }
-
-        return $this->renderForm('stock/index.html.twig', [
-            'stock' => $stock,
-            'form' => $form, 
-            'stocks' => $stockRepository->orderByNom()
-        ]);
-       
-        
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($stock);
+        $entityManager->flush();
     }
-   
-        
 
+    // Use the custom query method from the repository
+    $stocks = $stockRepository->orderByNom($order);
+
+    return $this->renderForm('stock/index.html.twig', [
+        'stock' => $stock,
+        'form' => $form,
+        
+    ]);
+}
+
+
+
+   
     
        }
 

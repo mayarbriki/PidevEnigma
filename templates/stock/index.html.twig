@@ -45,28 +45,20 @@
 										<label>
 											<select id="datatable-selector" class="datatable-selector">
 												<option value="10" selected="">ASC</option>
-												<option value="15">15</option>
+												<option value="15">DES</option>
 												<option value="-1">All</option>
 											</select>
 											entries per page
 										</label>
-										 <script>
-																				    document.getElementById('datatable-selector').addEventListener('change', function() {
-																				        var selectedValue = this.value;
-																				        if (selectedValue === '10') {
-																				            window.location.href = "{{ path('ASC') }}";
-																				        } else {
-																				            // Handle other options if needed
-																				        }
-																				    });
-																				</script>
+										 
 									</div>
 									<div class="datatable-search">
-										<form method="get" action="{{ path('stock_new') }}">
-											<input class="datatable-input" name="searchValue" placeholder="Search..." type="search" title="Search within table">
-											<button type="submit">Search</button>
-										</form>
-									</div>
+  <form method="get" action="{{ path('stock_new') }}">
+    <input class="datatable-input" name="searchValue" placeholder="Search..." type="search" title="Search within table">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  <button id="resetSearchButton" class="btn btn-secondary mt-3">Reset Search</button>
+</div>
 
 									<!-- Display the search results -->
 									
@@ -111,69 +103,69 @@
 											</tr>
 										</thead>
 										<tbody>
-										{% if stockSearch %}
-										
-										<ul>
-											{% for result in stockSearch %}
-											<tr data-index="0">
-													<td>{{ result.id }}</td>
-													<td>{{ result.nomProduit }}</td>
-													<td>{{ result.quantiteEntre }}</td>
-													<td>{{ result.quantiteSortie }}</td>
-													<td>{{ result.quantiteRestante }}</td>
-													<td>{{ result.date ? stock.date|date('Y-m-d') : 'N/A' }}</td>
-													<td>{{ result.fournisseur ? result.fournisseur.getNom()   : 'N/A' }}</td>
-													<td>
-														<button class="btn btn-info rounded-pill ">
-															<a href="{{ path('stock_show', {'id': result.id}) }}" style="color:white;">Show</a>
-														</button>
-														<button class="btn btn-success rounded-pill">
-															<a href="{{ path('stock_edit', {'id': result.id}) }}" style="color:white;">Edit</a>
-														</button>
-														<form method="post" action="{{ path('stock_delete', {'id': result.id}) }}" style="display: inline-block;">
-															<input type="hidden" name="_method" value="DELETE">
-															<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ result.id) }}">
-															<button type="submit" class="btn btn-danger rounded-pill">Delete</button>
-														</form>
-													</td>
-												</tr>
+										 {% if stockSearch %}
+  {# Display search results with a Reset Search button #}
+  
 
-											{% endfor %}
-										</ul>
-									{% elseif stockSearch ==""  %}
+  <ul>
+    {% for result in stockSearch %}
+      <tr data-index="0">
+        <td>{{ result.id }}</td>
+        <td>{{ result.nomProduit }}</td>
+        <td>{{ result.quantiteEntre }}</td>
+        <td>{{ result.quantiteSortie }}</td>
+        <td>{{ result.quantiteRestante }}</td>
+        <td>{{ result.date ? result.date|date('Y-m-d') : 'N/A' }}</td>
+        <td>{{ result.fournisseur ? result.fournisseur.getNom() : 'N/A' }}</td>
+        <td>
+          <button class="btn btn-info rounded-pill">
+            <a href="{{ path('stock_show', {'id': result.id}) }}" style="color:white;">Show</a>
+          </button>
+          <button class="btn btn-success rounded-pill">
+            <a href="{{ path('stock_edit', {'id': result.id}) }}" style="color:white;">Edit</a>
+          </button>
+          <form method="post" action="{{ path('stock_delete', {'id': result.id}) }}" style="display: inline-block;">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ result.id) }}">
+            <button type="submit" class="btn btn-danger rounded-pill">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </ul>
+
+{% else %}
+ 
+  {# Display a custom alert message when no results are found #}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <h4 class="alert-heading">No Results Found</h4>
+ <div class="icon">
+  <i class="bi bi-emoji-frown" style="font-size: 24px;"></i>
+  <div class="label"></div>
+</div>
+
+<p style="font-size: 18px;">The product you are searching for does not exist for the moment</p>
+
+    <hr>
+   
+  
+  </div>
+{% endif %}
 
 
-
-											{% for stock in stocks %}
-												<tr data-index="0">
-													<td>{{ stock.id }}</td>
-													<td>{{ stock.nomProduit }}</td>
-													<td>{{ stock.quantiteEntre }}</td>
-													<td>{{ stock.quantiteSortie }}</td>
-													<td>{{ stock.quantiteRestante }}</td>
-													<td>{{ stock.date ? stock.date|date('Y-m-d') : 'N/A' }}</td>
-													<td>{{ stock.fournisseur ? stock.fournisseur.getNom()   : 'N/A' }}</td>
-													<td>
-														<button class="btn btn-info rounded-pill ">
-															<a href="{{ path('stock_show', {'id': stock.id}) }}" style="color:white;">Show</a>
-														</button>
-														<button class="btn btn-success rounded-pill">
-															<a href="{{ path('stock_edit', {'id': stock.id}) }}" style="color:white;">Edit</a>
-														</button>
-														<form method="post" action="{{ path('stock_delete', {'id': stock.id}) }}" style="display: inline-block;">
-															<input type="hidden" name="_method" value="DELETE">
-															<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ stock.id) }}">
-															<button type="submit" class="btn btn-danger rounded-pill">Delete</button>
-														</form>
-													</td>
-												</tr>
+<script>
+  document.getElementById('resetSearchButton').addEventListener('click', function() {
+    window.location.href = '{{ path('stock_new') }}';
+  });
+</script>
 
 											
-											{% endfor %}
-
-
-											{% endif %}
-
+											
+											
+											
+											
+											{#the add new product khlayel rakez#}
+											
 											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
 												Add New Product
 											</button>
@@ -188,10 +180,20 @@
 														<div class="modal-body">
 															{{ form_start(form) }}
 
-															<div class="mb-3">
-																{{ form_label(form.nom_produit, 'Product Name') }}
-																{{ form_widget(form.nom_produit, {'attr': {'class': 'form-control'}}) }}
-															</div>
+   <div class="mb-3">
+    {{ form_label(form.nom_produit, 'Product Name', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.nom_produit, {'attr': {'class': 'form-control', 'placeholder': 'Enter the product name'}}) }}
+
+    {% if form.nom_produit.vars.errors|length > 0 %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong>
+            {% for error in form.nom_produit.vars.errors %}
+                {{ error.message }}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+</div>
 
 															<div class="mb-3">
 																{{ form_label(form.quantite_entre, 'Quantity In') }}
