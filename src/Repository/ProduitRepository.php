@@ -79,4 +79,12 @@ class ProduitRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findSavedProducts(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.saved = :saved')
+            ->setParameter('saved', true)
+            ->getQuery()
+            ->getResult();
+    }
 }

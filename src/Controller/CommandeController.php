@@ -103,8 +103,8 @@ class CommandeController extends AbstractController
     {
         // $email_user = $user->getUserIdentifier();
         $email = (new Email())
-        ->from(new Address('mayar.briki@esprit.tn'))
-       
+        ->from(new Address('mayar@Parapharmacy', 'ADMIN'))
+        //$c->getPani()->getUser()->getUserIdentifier()
         ->to( $c->getUser()->getUserIdentifier())
         ->subject('salutation')
         ->subject('Order Confirmation')

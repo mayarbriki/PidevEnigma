@@ -36,32 +36,37 @@ class PanierController extends AbstractController
 {
    
     #[Route('/panier/{id}', name: 'panier')]
-    public function index(Produit $produit ,PanierRepository $repository , EntityManagerInterface $em , Request $request): Response
+    public function index(Produit $produit, PanierRepository $repository, EntityManagerInterface $em, Request $request): Response
     {
-        //verfie si le user est connecté ou non
-        if (!$this->getUser()) {
-             return $this->redirectToRoute('app_login');  
-        }
+        // Check if user is authenticated
         $user = $this->getUser();
-        $panier = $user->getPanier();
-         if ($panier) {
-            $panier->addProduit($produit);
-            $em->flush();
-        }else{
-            $panier = new Panier;
-
-            $panier->setUser($user);
-            $panier->addProduit($produit);
-            $em->persist($panier);
-            $em->flush();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
+
+        // Get the user's panier
+        $panier = $user->getPanier();
+
+        if (!$panier) {
+            // If user does not have a panier, create a new one and associate it with the user
+            $panier = new Panier();
+            $panier->setUser($user);
+            $em->persist($panier);
+
+            // Debugging: Output a message to confirm panier creation
+            $this->addFlash('success', 'New panier created for user ' . $user->getId());
+        }
+
+        // Add the product to the panier
+        $panier->addProduit($produit);
         
-       
-       
+        // Persist changes to the database
+        $em->flush();
 
+        // Debugging: Output a message to confirm product addition
+        $this->addFlash('success', 'Product added to panier');
 
-
-       return $this->redirectToRoute('app');
+        return $this->redirectToRoute('app');
     }
 
   
@@ -108,7 +113,7 @@ class PanierController extends AbstractController
        
    }
 
-  
+    
      
    
 }

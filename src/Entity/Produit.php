@@ -45,6 +45,9 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?int $rate = null;
 
+    #[ORM\Column]
+    private ?bool $saved = null;
+
     public function __construct()
     {
         $this->panier = new ArrayCollection();
@@ -166,6 +169,18 @@ class Produit
     public function setRate(?int $rate): static
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function isSaved(): ?bool
+    {
+        return $this->saved;
+    }
+
+    public function setSaved(bool $saved): static
+    {
+        $this->saved = $saved;
 
         return $this;
     }

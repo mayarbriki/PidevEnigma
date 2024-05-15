@@ -12,11 +12,23 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Security\Core\Security;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class Transport1Type extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $this->security->getUser();
+        
         $builder
             ->add('type', ChoiceType::class, [
                 'choices' => [
@@ -71,7 +83,12 @@ class Transport1Type extends AbstractType
                     'Hors service' => 'Hors Service',
                 ],
             ])
-            ->add('Nom')
+            ->add('livreur', EntityType::class, [
+                'class' => User::class,
+                'choices' => [$user],
+                'choice_label' => 'name', // Adjust this to the actual field representing the username
+                'disabled' => true,
+            ]);
         ;
     }
 

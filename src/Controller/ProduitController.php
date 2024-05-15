@@ -33,7 +33,20 @@ class ProduitController extends AbstractController
     #[Route('/produit', name: 'app')]
     public function affiche1(ProduitRepository $pr, Request $request ,PaginatorInterface $pg ,EntityManagerInterface $em): Response
     {
-//stats
+        $user = $this->getUser(); // Assuming you have user authentication in place
+
+//stats 
+$userId = $user->getId();
+$products = $this->getDoctrine()->getRepository(Produit::class)->findAll();
+
+// Initialize the array for user's panier products
+$userPanierProducts = [];
+
+if ($user && $user->getPanier()) {
+    $userPanierProducts = $user->getPanier()->getProduits()->toArray();
+}
+
+
 
 //filtrage et recherche
         $searchQuery = $request->query->get('search');
@@ -46,58 +59,16 @@ class ProduitController extends AbstractController
             3 //element par page
         );   
 
-        if ($this->isGranted("ROLE_ADMIN")) {
-
-        return $this->render ('produit/back.html.twig',[   'pagination'=>$pagination]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render ('produit/back.html.twig',[   'pagination'=>$pagination]);
         }
-        return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination]);
+ 
+        return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination, 'userId' => $userId,            'user' => $user,'products' => $products,
+        'userPanierProducts' => $userPanierProducts]);
      
  
        
     }
-
-
-    #[Route('/produit/details/{id}', name: 'app_produit_details')]
-    public function details(Produit $prod , Request $request,EntityManagerInterface $em): Response
-    {
-
-       
-    
-     
-
-        if ( $request->query->get('rating')) {
-            $rating = $request->query->get('rating');
-
-            $prod->setRate($rating);
-            $em->persist($prod);
-            $em->flush();
-         }
-       
-
-
-         $productId = $prod->getId();
-
-         $qb = $em->createQueryBuilder();
-         $qb->select('AVG(p.rate) as average_rating')
-            ->from('App\Entity\Produit', 'p')
-            ->where('p.id = :productId')
-            ->setParameter('productId', $productId);
-     
-         $query = $qb->getQuery();
-         $avg = $query->getSingleScalarResult();
-        if ($this->isGranted("ROLE_ADMIN")) {
-
-            return $this->render ('produit/back.html.twig',[   'a'=>$prod]);
-            }
- 
-       return $this->render('produit/show-client.html.twig',[
-           'a'=>$prod,
-           'avg'=>$avg
-       ]);
- 
- 
-   }
-
   /*  #[Route('/produit/afficherback', name: 'appback')]
     public function afficheback(ManagerRegistry $em): Response
     {
@@ -166,7 +137,7 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() )
         { $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('appback');
+            return $this->redirectToRoute('app');
         }
         return $this->renderForm("Produit/update.html.twig",
             ["Produit"=>$form]) ;
@@ -183,8 +154,12 @@ class ProduitController extends AbstractController
         $em = $doctrine->getManager();
         $em->remove($c);
         $em->flush() ;
-        return $this->redirectToRoute('appback');
-    }
+        return $this->redirectToRoute('app');
+
+    } 
+
+        
+    
     #[Route('/produit/statistics', name: 'product_statistics')]
     public function productStatistics(ManagerRegistry $doctrine): Response
     {
@@ -225,4 +200,8 @@ class ProduitController extends AbstractController
             'lowest_priced_product' => $lowestPricedProduct,
         ]);
     }
+    
+
+
+    
 }

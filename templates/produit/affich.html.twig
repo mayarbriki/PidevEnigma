@@ -69,25 +69,39 @@
                     <div class="swiper-slide">
                         <div class="product-card position-relative">
                             <div class="image-holder">
-                                <a href="/produit/details/{{a.id}}">
-                                    <img style="border-radius: 30px;" src="{{asset('/uploads/produits/'~a.Image)}}"
-                                        width="100%" height="150px" alt="product-item" class="">
-                                </a>
+                                <img style="border-radius: 30px;" src="{{asset('/uploads/produits/'~a.Image)}}"
+                                    width="100%" height="150px" alt="product-item" class="">
                             </div>
                             <div class="cart-concern position-absolute">
                                 <div class="cart-button d-flex">
-                                    {% if a.panier is empty %}
-                                    <a href="/panier/{{a.id}}" class="btn btn-medium btn-black add-to-cart"
-                                        data-product-id="{{a.id}}">Add to Cart<svg class="cart-outline">
-                                            <use xlink:href="#cart-outline"></use>
-                                        </svg></a>
-                                    {% else %}
+                                    {% for product in products %}
+    {% set isInPanier = false %}
+    {% if userPanierProducts is not empty %}
+        {% set foundInPanier = false %}
+        {% for panierProduct in userPanierProducts %}
+            {% if panierProduct.id == product.id %}
+                {% set foundInPanier = true %}
+            {% endif %}
+        {% endfor %}
+        {% set isInPanier = foundInPanier %}
+    {% endif %}
 
-                                    <a class="btn btn-success  add-to-cart" data-product-id="{{a.id}}">Already In<svg
-                                            style="color: green;" class="cart-outline">
-                                            <use xlink:href="#cart-outline"></use>
-                                        </svg></a>
-                                    {% endif %}
+    {% if isInPanier %}
+        <a class="btn btn-success add-to-cart" data-product-id="{{ product.id }}">Already In
+            <svg style="color: green;" class="cart-outline">
+                <use xlink:href="#cart-outline"></use>
+            </svg>
+        </a>
+    {% else %}
+        <a href="/panier/{{ product.id }}" class="btn btn-medium btn-black add-to-cart" data-product-id="{{ product.id }}">
+            Add to Cart
+            <svg class="cart-outline">
+                <use xlink:href="#cart-outline"></use>
+            </svg>
+        </a>
+    {% endif %}
+{% endfor %}
+
 
 
 
