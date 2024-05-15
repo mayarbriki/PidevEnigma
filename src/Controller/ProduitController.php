@@ -33,7 +33,20 @@ class ProduitController extends AbstractController
     #[Route('/produit', name: 'app')]
     public function affiche1(ProduitRepository $pr, Request $request ,PaginatorInterface $pg ,EntityManagerInterface $em): Response
     {
-//stats
+        $user = $this->getUser(); // Assuming you have user authentication in place
+
+//stats 
+$userId = $user->getId();
+$products = $this->getDoctrine()->getRepository(Produit::class)->findAll();
+
+// Initialize the array for user's panier products
+$userPanierProducts = [];
+
+if ($user && $user->getPanier()) {
+    $userPanierProducts = $user->getPanier()->getProduits()->toArray();
+}
+
+
 
 //filtrage et recherche
         $searchQuery = $request->query->get('search');
@@ -50,7 +63,8 @@ class ProduitController extends AbstractController
             return $this->render ('produit/back.html.twig',[   'pagination'=>$pagination]);
         }
  
-        return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination]);
+        return $this->render ('produit/affich.html.twig',[   'pagination'=>$pagination, 'userId' => $userId,            'user' => $user,'products' => $products,
+        'userPanierProducts' => $userPanierProducts]);
      
  
        
@@ -123,7 +137,7 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() )
         { $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('appback');
+            return $this->redirectToRoute('app');
         }
         return $this->renderForm("Produit/update.html.twig",
             ["Produit"=>$form]) ;
@@ -140,8 +154,12 @@ class ProduitController extends AbstractController
         $em = $doctrine->getManager();
         $em->remove($c);
         $em->flush() ;
-        return $this->redirectToRoute('appback');
-    }
+        return $this->redirectToRoute('app');
+
+    } 
+
+        
+    
     #[Route('/produit/statistics', name: 'product_statistics')]
     public function productStatistics(ManagerRegistry $doctrine): Response
     {

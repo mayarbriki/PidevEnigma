@@ -67,7 +67,7 @@ class User implements  UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Panier $panier = null;
-
+    
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'user')]
     private Collection $commandes;
 
@@ -297,10 +297,21 @@ class User implements  UserInterface, PasswordAuthenticatedUserInterface
     }
 
    
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setUser($this);
+        }
 
+        return $this;
+    }
     
  
-
+    public function getUser(): ?Panier
+    {
+        return $this->panier;
+    }
     
  
 }
